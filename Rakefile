@@ -30,8 +30,7 @@ end
 
 task "Serve"
 task :serve do
-  Rake::Task['css'].execute
+  #Rake::Task['css'].execute
 
-  `open http://localhost:4000`
-  `jekyll --serve --no-pygments`
+  `set LANG=en_EN.UTF-8 && jekyll --serve`
 end
