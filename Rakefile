@@ -21,8 +21,8 @@ desc "Deploy site"
 task :deploy do
   Rake::Task['css'].execute
   puts 'Comitting generated CSS'
-  `git add static\\css\\`style.css`
-  `git commit -m 'Compressed CSS for deploy'`
+  `git add static/css/style.css`
+  `git commit -m "Compressed CSS for deploy"`
 
   puts "Pushing to Github"
   `git push origin master`
