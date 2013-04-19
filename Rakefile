@@ -32,5 +32,5 @@ task "Serve"
 task :serve do
   Rake::Task['css'].execute
 
-  `set LANG=en_EN.UTF-8 && jekyll --serve --auto`
+  `set LANG=en_EN.UTF-8 && jekyll --serve`
 end
