@@ -7,7 +7,7 @@ task :css do
   `del static\\css\\style.css`
   `del static\\css\\temp.css`
 
-  %W{font-awesome syntax skeleton base layout}.each do |file|
+  %W{font-awesome syntax skeleton base layout gridtable}.each do |file|
     `type static\\css\\#{file}.css >> static\\css\\temp.css`
   end
 
