@@ -29,7 +29,7 @@ I attempted to implement a CPU-bound algorithm in both C++ (imperative language)
 I choose to implement an algorithm to categorize all of the two-player Nash games of a given size as I described in a [previous post](/a-brief-introduction-to-nash-games/) for a few reasons:
 
 * I know this algorithm well
-* I already have a prior C++ implementation
+* I already have a C++ implementation
 * The algorithm involves no data sharing
 
 ##The Tools##
@@ -41,7 +41,7 @@ I have chosen [Clojure](http://clojure.org/) as the functional language. I am no
 I have some experience with C++ development. I have effectively no experience with Clojure development. I am rather certain that an experienced Clojure developer could provide a better implementation than I have. If you have suggestions to improve my implementation, please let me know! I would like to improve the implementation so that the results of this study can be more accurate.
 
 ##The Setup##
-I profiled both implementations on a Windows 7 64-bit machine with two [Intel Xeon X5675](http://ark.intel.com/products/52577/) processors. I ran each implementation using between one and twelve threads. For each thread count, I ran the implementation five consecutive times, and averaged the wall-clock run time for each. I used games of size 6x6 for the C++ implementation. The Clojure implementation used signifigant more memory than the C++ implementation, so I was unable to complete a run with games of size 6x6 without exhausting all of the memory on the machine. Instead, I used games of size 5x5 for the Clojure implementation.
+I profiled both implementations on a Windows 7 64-bit machine with two [Intel Xeon X5675](http://ark.intel.com/products/52577/) processors. I ran each implementation using between one and twelve threads. For each thread count, I ran the implementation five consecutive times, and averaged the wall-clock run time for each. I used games of size 6x6 for the C++ implementation. The Clojure implementation used signifigantly more memory than the C++ implementation, so I was unable to complete a run with games of size 6x6 without exhausting all of the memory on the machine. Instead, I used games of size 5x5 for the Clojure implementation.
 
 The DOS batch file used to run the implementations is available [here](https://gist.github.com/joshpeterson/5429267).
 
@@ -62,10 +62,10 @@ The chart below shows the scalability of the Clojure implementation.
 This implementation gets nearly linear scalability for two and three threads, then tails off and fails to improve after six threads, effectively wasting CPU resources for any more than six threads. Since the algorithm requires no data sharing, and the Clojure implementation does not have any shared data, this seems like a surprising result. I believe that I can explain the problem though.
 
 ###Memory Usage###
-Once the execution of each algorithm got started, I compared the memory usage, measuring it with Process Explorer. For this tests, both implementations used eight threads. The difference is dramatic. The C++ implementation used 1.7 MB of memory, but the Clojure implementation used 3.3 GB of memory. Keep in mind that teh C++ implementation was running with games of size 6x6, whereas the Clojure implementation was operating on a much smaller problem, games of size 5x5. So although the algorithm requires no state (other than the results), the Clojure implementation was clearly using far too much memory. This memory usage pattern lead me to consider that the cause of the scalability problem in the Clojure implementation may be related to cache misses.
+Once the execution of each algorithm got started, I compared the memory usage, measuring it with Process Explorer. For this test, both implementations used eight threads. The difference is dramatic. The C++ implementation used 1.7 MB of memory, but the Clojure implementation used 3.3 GB of memory. Keep in mind that the C++ implementation was running with games of size 6x6, whereas the Clojure implementation was operating on a much smaller problem, games of size 5x5. So although the algorithm requires no state (other than the results), the Clojure implementation was clearly using far too much memory. This memory usage pattern lead me to consider that the cause of the scalability problem in the Clojure implementation may be related to cache misses.
 
 ###Cache Misses###
-I used Intel VTune Amplifier XE 2013 to profile the performance of each implemenation running with eight threads. The Intel Xeon X5675 processor has 2MB of L2 cache and 12 MB of L3 cache, so the entire address space used by the C++ implementation can fit into the L2 cache. I would expect very few misses for the L2 cache, and almost no mnisses for the L3 cache with the C++ implementation. Since the Clojure implementation used signifigantly more memory, I expected to see many more cache misses.
+I used Intel VTune Amplifier XE 2013 to profile the performance of each implemenation running with eight threads. The Intel Xeon X5675 processor has 2MB of L2 cache and 12 MB of L3 cache, so the entire address space used by the C++ implementation can fit into the L2 cache. I would expect very few misses for the L2 cache, and almost no misses for the L3 cache with the C++ implementation. Since the Clojure implementation used signifigantly more memory, I expected to see many more cache misses.
 
 Using the profiling guide [here](http://software.intel.com/sites/default/files/m/a/d/2/2/e/15529-Intel_VTune_Using.pdf), I computed the percent of cache misses using these formulas:
 
@@ -94,7 +94,7 @@ and I obtained the following results:
 </table>
 </center>
 
-I believe that these results explain the difference in scalability. The Clojure implementation spent signifigantly more time dealing with cache misses. The C++ implementation effectively never missed L3 cache, meaning that it could complete avoid going to main memory. Althougth the CLojure implementation has no real data shareing, it seems to suffer from [false sharing](http://en.wikipedia.org/wiki/False_sharing), often exhausting the L2 and L3 caches.
+I believe that these results explain the difference in scalability. The Clojure implementation spent signifigantly more time dealing with cache misses. The C++ implementation effectively never missed L3 cache, meaning that it could completely avoid going to main memory. Althougth the Clojure implementation has no real data shareing, it seems to suffer from [false sharing](http://en.wikipedia.org/wiki/False_sharing), often exhausting the L2 and L3 caches.
 
 Suppose that we attempted to fix the Lego&copy; contention described above by separating some of the blocks into groups, and giving each pair of children one group of blocks to use. Most of the blocks could still be in one pile that the children could access, but we'll have an adult manage that pile, and make sure the only one or two children can takes blocks from it at a time.
 
