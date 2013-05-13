@@ -32,6 +32,15 @@ Here is the section of this code which prevents Clojure's normal laziness:
                games)]
 {% endhighlight %}
 
-Here ```games``` is a lazy sequence of all integers from 0 to the number of games. The ```partition-all```
+Here <code>games</code> is a lazy sequence of all integers from 0 to the number of games. The <a href="http://clojuredocs.org/clojure_core/1.3.0/clojure.core/partition-all"><code>partition-all</code></a> function iterates all of the integers and creates subsequences of a given size. Instead of using the laziness of Clojure sequences to minimize the memory usage for these large sequences, this implementation requires all of the integers to be stored in memory. This is one section of code which contributes to the significant memory usage of the implementation.
 
+##Thinking Functionally##
+Unfortunately, I find myself continuing to think in imperative languages even when I'm writing code in functional languages. So I found it useful to express this code in an imperative language to help me determine what is wrong with this code.
 
+> Digression:
+>
+> In high school, I remember talking with an exchange student from Brazil on day. He was very happy, since he had dreamt in English for the first time the previous night. This was an indication that he was beginning to think in English, instead of translating from English to Portuguese in his mind. This allowed him to think faster.
+>
+> Often I feel that I'm thinking to slowly while writing code in a functional language, for this same reason.
+
+The code in here is doing something like this:
