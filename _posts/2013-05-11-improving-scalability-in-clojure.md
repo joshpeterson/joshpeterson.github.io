@@ -43,4 +43,64 @@ Unfortunately, I find myself continuing to think in imperative languages even wh
 >
 > Often I feel that I'm thinking to slowly while writing code in a functional language, for this same reason.
 
-The code in here is doing something like this:
+The <code>partition-all</code> function is doing something like this:
+
+{% highlight c++%}
+vector<vector<int>> partition-all<T>(int partition_size,
+                                     T begin, T end)
+{
+    vector<vector<int>> partitions;
+    vector<int> current_partition;
+    int current_partition_size = 0;
+    for (auto i = begin; i != end; ++i)
+    {
+        if (current_partition_size < partition_size)
+            current_partition.push_back(*i);
+        else
+        {
+            partitions.push_back(current_partition);
+            current_partition.clear();
+        }
+    }
+
+    return partitions;
+}
+{% endhighlight %}
+
+When the code is expressed this way, I can clearly see that we will use a signifigant amount of memory to store each of the consecutive integers. Actually, we only need to start the start and end index of each range. Here is a better implementation in C++:
+
+{% highlight c++%}
+vector<pair<int, int>> partition-all<T>(int partition_size,
+                                        T begin, T end)
+{
+    vector<pair<int, int>> partitions_indices;
+    int current_partition_size = 0;
+    int current_start_index = 0;
+    int current_end_index = 0;
+    for (auto i = begin; i != end; ++i)
+    {
+        if (current_partition_size < partition_size)
+            ++current_end_index;
+        else
+        {
+            partitions_indices.push_back(
+                    make_pair(current_start_index,
+                              current_end_index));
+            current_start_index = current_end_index + 1;
+            ++current_end_index;
+        }
+    }
+
+    return partition_indices;
+}
+{% endhighlight %}
+
+The corresponding code in Clojure to return a sequence of only the start and end indices for each partition is this:
+
+{% highlight clojure %}
+(map #(conj [%] (+ % (- entries-per-partition 1)))
+ (filter #(and (>= (- number-of-games %)
+                   entries-per-partition)
+               (= 0 (mod % entries-per-partition)))
+          (range number-of-games)))
+{% endhighlight %}
