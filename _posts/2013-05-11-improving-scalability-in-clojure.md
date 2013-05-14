@@ -46,16 +46,16 @@ Unfortunately, I find myself continuing to think in imperative languages even wh
 The <code>partition-all</code> function is doing something like this:
 
 {% highlight c++%}
-vector<vector<int>> partition-all<T>(int partition_size,
-                                     T begin, T end)
+vector<vector<int>> partition-all(int partition_size,
+                                  int number_of_games)
 {
     vector<vector<int>> partitions;
     vector<int> current_partition;
     int current_partition_size = 0;
-    for (auto i = begin; i != end; ++i)
+    for (int i = 0; i < number_of_games; ++i)
     {
         if (current_partition_size < partition_size)
-            current_partition.push_back(*i);
+            current_partition.push_back(i);
         else
         {
             partitions.push_back(current_partition);
@@ -70,14 +70,14 @@ vector<vector<int>> partition-all<T>(int partition_size,
 When the code is expressed this way, I can clearly see that we will use a signifigant amount of memory to store each of the consecutive integers. Actually, we only need to start the start and end index of each range. Here is a better implementation in C++:
 
 {% highlight c++%}
-vector<pair<int, int>> partition-all<T>(int partition_size,
-                                        T begin, T end)
+vector<pair<int, int>> partition-all(int partition_size,
+                                     int number_of_games)
 {
     vector<pair<int, int>> partitions_indices;
     int current_partition_size = 0;
     int current_start_index = 0;
     int current_end_index = 0;
-    for (auto i = begin; i != end; ++i)
+    for (int i = 0; i < number_of_games; ++i)
     {
         if (current_partition_size < partition_size)
             ++current_end_index;
@@ -104,3 +104,30 @@ The corresponding code in Clojure to return a sequence of only the start and end
                (= 0 (mod % entries-per-partition)))
           (range number-of-games)))
 {% endhighlight %}
+
+I often find that I understand Clojure code when I think about it backwards, using the REPL to unroll the meaning of each statement. Let's consider this code for a 2x2 game with partitions of size 4.
+
+{% highlight clojure %}
+nash-clojure.core=> (range 16)
+(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15)
+{% endhighlight %}
+
+This part of the code builds a lazy sequence of the values to iterate. It corresponds to the for loop in the C++ implementation.
+
+{% highlight clojure %}
+nash-clojure.core=> (filter #(and (>= (- 16 %) 4)
+                 =>               (= 0 (mod % 4))) (range 16))
+(0 4 8 12)
+{% endhighlight %}
+
+The next part of the code finds the starting index of each partition. Since we don't use mutable state in Clojure, we cannot walk the end index of each partition back as we do in C++. Instead, we do the reverse (in csoe sense), and pick off the start index of each partition from the sequence of all indices.
+
+{% highlight clojure %}
+nash-clojure.core=> (map #(conj [%] (+ % (- 4 1)))
+                 =>      '(0 4 8 12))
+([0 3] [4 7] [8 11] [12 15])
+{% endhighlight %}
+
+Finally, the code [conjoins](http://clojuredocs.org/clojure_core/clojure.core/conj) each start index with the corresponding end index by adding the partition size minus one to each start index. The result is a sequence of pairs, with each pair representing the start and end indices of a partition.
+
+##The Results##
