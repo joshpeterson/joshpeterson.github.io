@@ -2,7 +2,7 @@
 layout: post
 title: Improving Scalability in Clojure
 ---
-In my [last post](/scalability-in-a-functional-language/) I compared the scalability of a CPU-bound algorithm in both C++ and Clojure. Although the Clojure implementation had no real data sharing, it used significantly more memory than necessary, which lead to false sharing, and limited the scalability of the implementation. In this post, I'll explain my attempts to improve the scalability of the Clojure implementation by limiting its memory usage.
+In my [last post]({% post_url 2013-04-23-scalability-in-a-functional-language %}) I compared the scalability of a CPU-bound algorithm in both C++ and Clojure. Although the Clojure implementation had no real data sharing, it used significantly more memory than necessary, which lead to false sharing, and limited the scalability of the implementation. In this post, I'll explain my attempts to improve the scalability of the Clojure implementation by limiting its memory usage.
 
 ##TL;DR##
 I was unable to significantly lessen the memory usage of the Clojure implementation. By comparing the Clojure implementation on both the JVM and the CLR, it seems clear that less memory usage leads to fewer cache misses, and better scalability. Since this algorithm has no intrinsic data sharing, and can be implemented to scale effectively in an imperative language without too much difficulty.
