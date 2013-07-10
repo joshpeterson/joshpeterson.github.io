@@ -1,20 +1,34 @@
 require 'rake'
+require 'os'
 
 desc "Compile CSS files"
 task :css do
   puts "Merging CSS"
 
-  `del static\\css\\style.css`
-  `del static\\css\\temp.css`
+  if OS.windows?
+      `del static\\css\\style.css`
+      `del static\\css\\temp.css`
 
-  %W{font-awesome syntax skeleton base layout gridtable}.each do |file|
-    `type static\\css\\#{file}.css >> static\\css\\temp.css`
+      %W{font-awesome syntax skeleton base layout gridtable}.each do |file|
+        `type static\\css\\#{file}.css >> static\\css\\temp.css`
+      end
+
+      `java -jar ..\\development\\yuicompressor\\yuicompressor-2.4.7.jar static\\css\\temp.css > static\\css\\style.css`
+
+    puts 'CSS dumped to static\\css\\style.css'
+  else
+      `rm static/css/style.css`
+      `rm static/css/temp.css`
+
+      %W{font-awesome syntax skeleton base layout gridtable}.each do |file|
+        `cat static/css/#{file}.css >> static/css/temp.css`
+      end
+
+      `yui-compressor static/css/temp.css > static/css/style.css`
+
+    puts 'CSS dumped to static/css/style.css'
   end
 
-  # `mv .\\static\\css\\temp.css .\\static\\css\\style.css`
-  `java -jar ..\\development\\yuicompressor\\yuicompressor-2.4.7.jar static\\css\\temp.css > static\\css\\style.css`
-
-  puts 'CSS dumped to static\\css\\style.css'
 end
 
 desc "Deploy site"
@@ -32,5 +46,9 @@ task "Serve"
 task :serve do
   Rake::Task['css'].execute
 
-  `set LANG=en_EN.UTF-8 && jekyll --serve`
+  if OS.windows?
+    `set LANG=en_EN.UTF-8 && jekyll --serve`
+  else
+    `jekyll serve --watch`
+  end
 end
