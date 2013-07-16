@@ -12,9 +12,9 @@ A syllogism consists of two or more statements, connected by a logical argument,
 * The premises are true, and
 * The logic is valid
 
-then we must agree on the conclusion.
+Then we must agree on the conclusion.
 
-[Socratic Logic](http://www.amazon.com/gp/product/1587318083?ie=UTF8&force-full-site=1&ref_=aw_bottom_links) is an excellent book ry Peter Kreeft on th subject.
+[Socratic Logic](http://www.amazon.com/gp/product/1587318083?ie=UTF8&force-full-site=1&ref_=aw_bottom_links) is an excellent book by Peter Kreeft on the subject.
 
 The canonical syllogism
 ====================
