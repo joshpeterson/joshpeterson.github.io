@@ -19,7 +19,7 @@ If just one child is playing with these Legos&copy;, we don't have any problems.
 Implementation of an algorithm which scales to multiple processors faces the same problem. If any data (Legos&copy;) are shared among the processors, the contention will cause the program to take longer to complete. As more processors become involved, some capability of each processor will be wasted, waiting for 
 shared data.
 
-Ideally, an implementation should scale _linearly_, that is, the wall-clock time to execute it with two processors should be half the time to execute it with one processor. The time to execute it with four processors should be half the time required to exedcute it with two processors. In practice, this is difficult to achieve. Many implementations scale linearly up to a few processors, then suffer from increased contention as more processors are used.
+Ideally, an implementation should scale _linearly_, that is, the wall-clock time to execute it with two processors should be half the time to execute it with one processor. The time to execute it with four processors should be half the time required to execute it with two processors. In practice, this is difficult to achieve. Many implementations scale linearly up to a few processors, then suffer from increased contention as more processors are used.
 
 In most imperative languages, data is shared between threads by default, often making data sharing difficult to find and eliminate. In functional languages data is not shared by default, giving the promise of writing scalable algorithms with less difficulty.
 
