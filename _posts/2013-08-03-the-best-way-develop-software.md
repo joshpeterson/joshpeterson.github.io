@@ -13,8 +13,8 @@ If we can determine all of the cases when TDD is not the best technique for soft
 
 Test Driven Design is the always the best technique for software development.
 
-1. Test Driven Design is the application fo the scientific method to sofware development.
-2. Test Driven Design requires us to dogfood, making the use of our software easier for our cients.
+1. Test Driven Design is the application of the scientific method to sofware development.
+2. Test Driven Design requires us to dogfood, making the use of our software easier for our clients.
 3. We are already practing Test Driven Design, so why not replace ourselves with a small shell script?
 
 [Syllogisms](/a-brief-introduction-to-syllogisms) are a useful tool for analysis of statements. If we can state each of these arguments as a syllogism, then we can explore the conditions when the syllogism does not apply. Those are the same conditions when TDD is not the best method for software development.
