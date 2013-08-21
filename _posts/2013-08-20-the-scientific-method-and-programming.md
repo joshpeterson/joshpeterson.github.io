@@ -79,4 +79,34 @@ Here the minor term is "Test Driven Design (TDD)" and the middle term is again "
 This one-to-one mapping between the steps of the scientific method and Test Driven Design indicates that TDD is the application of the scientific method to software development.
 
 ##Logic##
-The conclusion of the syllogism is this statement "TDD is the best way to develop software". Here the minor term is "TDD" and the major term is "to advance technology".
+The conclusion of the syllogism is this statement: "TDD is the best way to develop software". Here the minor term is "TDD" and the major term is "to advance technology". In order for the logic to be valid, the minor term must be the subject of the conclusion, and the major term must be the object of the conclusion. Therefore, the terms "to advance technology" and "to develop software" must be interchangeable.
+
+I believe they  are interchangeable, since the tasks of software development are a proper subset of the tasks of technological advancement. Then in the conclusion, we can replace the more universal statement (to advance technology) with the more particular statement (to develop software).
+
+##How to disagree##
+As with any syllogism, an argument against this conclusion has three grounds for disagreement:
+
+* The terms are not defined correctly
+* The premises are not true
+* The logic is not valid
+
+For example, I may have defined the terms too narrowly. Maybe a broader definition of some term will render the conclusion less useful. Or you may not believe that TDD is the application of the scientific method to software development. Or possibly, the terms "to advance technology" and "to develop software" are not interchangeable in the conclusion.
+
+##If this is true, what does it mean?##
+The benefit of this exercise, for me, is not so much the conclusion, but rather, a clear definition of times when TDD is not an appropriate software development practice. If I can define all of the times when TDD should not be used, then I also know when it should be used. I can convince myself that it is worth the initial effort, even if it seems to take longer to write some piece of software.
+
+So under what conditions would we not use the scientific method?
+
+* When we do not know how to set up the experiment.
+* When the results of the experiment do not need to be reproduced or examined by others.
+* When the experiment is well known and understood, and will not change.
+* When we cannot set up a control for the experiment (e.g. theoretical physics)
+
+Since TDD is the application of the scientific method to software development (the minor premise), we can mention the corresponding conditions which would prevent the use of TDD.
+
+* Then the expected behavior of the software is not known.
+* When the software is not to be used by clients or read by other developers.
+* When the software is well known and understood, and will not change (across a known API boundary).
+* When the software is prohibitively expensive to reliably test (e.g., GUI, multiple processes, multiple threads, non deterministic code, legacy code)
+
+
