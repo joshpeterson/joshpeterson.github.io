@@ -13,7 +13,7 @@ If we can determine all of the cases when TDD is not the best technique for soft
 
 Test Driven Design is the always the best technique for software development.
 
-1. Test Driven Design is the application of the scientific method to sofware development.
+1. [Test Driven Design is the application of the scientific method to software development.](/the-scientific-method-and-programming/)
 2. Test Driven Design requires us to dogfood, making the use of our software easier for our clients.
 3. We are already practing Test Driven Design, so why not replace ourselves with a small shell script?
 
