@@ -59,7 +59,7 @@ As with any syllogism, an argument against this conclusion has three grounds for
 For example, I may have defined the terms too narrowly. Maybe a broader definition of some term will render the conclusion less useful, or you may not believe the truth of the major or the minor premise.
 
 ##When should we avoid using Test Driven Design?##
-Since Test Driven design often has a higher initial cost than other software development techniques, I believe that we need to determine when this analysis indicates that it should not be used.
+Since Test Driven Design often has a higher initial cost than other software development techniques, I believe that we need to determine when this analysis indicates that it should not be used.
 
 Since this syllogism describes why Test Driven Design is beneficial to clients of our public API, then clearly it does not apply when we do not have a public API exposed. How often do we not have a public API? I suspect that we nearly always do. If our code is not consumed by some other developer now, and it is useful, than it likely will be used at some point. Maybe Jeff Bezos was right with his API [mandate](https://plus.google.com/112678702228711889851/posts/eVeouesvaVX).
 
