@@ -108,10 +108,10 @@ So under what conditions would we not use the scientific method?
 
 Since TDD is the application of the scientific method to software development (the minor premise), we can mention the corresponding conditions which would prevent the use of TDD.
 
-* Then the expected behavior of the software is not known.
+* When the expected behavior of the software is not known.
 * When the software is not to be used by clients or read by other developers.
 * When the software is well known and understood, and will not change (across a known API boundary).
-* When the software is prohibitively expensive to reliably test (e.g., GUI, multiple processes, multiple threads, non deterministic code, legacy code)
+* When the software is prohibitively expensive to reliably test (e.g., GUI, multiple processes, multiple threads, non deterministic code, legacy code).
 
 For most of the software I develop, none of these conditions hold. Therefore, I should be using TDD most of the time. Other developers may find that most of their development meets one or more of these conditions, so TDD is not the best approach. So it seems that TDD should be applied on a case-be-case basis.
 

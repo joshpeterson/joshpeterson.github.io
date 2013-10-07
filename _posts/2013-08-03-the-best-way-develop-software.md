@@ -21,4 +21,4 @@ Test Driven Design is the always the best technique for software development.
 
 If these are all, or at least most, of the cases where TDD does not apply, then we can be confident that TDD is the best method for software development in the other cases.
 
-The following posts will describe a syllogism for each argument, an attempt to analyze each syllogism.
+The following posts will describe a syllogism for each argument, and attempt to analyze each syllogism.
