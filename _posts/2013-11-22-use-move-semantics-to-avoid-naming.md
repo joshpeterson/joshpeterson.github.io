@@ -91,7 +91,7 @@ So now the calling code is safer. There is no name for the <code>std::thread</co
 {% highlight c++ %}
 void f();
 void might_throw() {
-  guard g(std::thread(f)); // Move the std::thread
+  guard g(std::thread{f}); // Move the std::thread
   // No problems if this throws.
   do_something_that_might_throw();
 }
