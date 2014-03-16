@@ -47,7 +47,7 @@ task :serve do
   Rake::Task['css'].execute
 
   if OS.windows?
-    `set LANG=en_EN.UTF-8 && jekyll --serve`
+    `set LANG=en_EN.UTF-8 && jekyll serve --watch`
   else
     `jekyll serve --watch`
   end
