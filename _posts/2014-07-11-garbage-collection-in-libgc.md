@@ -29,3 +29,42 @@ int main() {
 {% endhighlight %}
 
 We saw in the previous post that libgc makes a distinction between large and small objects. I need to allocated 2048 bytes on my machine to use the large object allocation. Garbage collection is first attempted when the libgc code recognizes that it does not have enough free space to complete the requested allocation. The `GC_alloc_large` function calls `GC_allochblk` once to perform the necessary allocation. If this allocation fails, the `GC_collect_or_expand` function is called to attempt to either reclaim some unused memory or expand the pool of available memory from the OS. Once `GC_collect_or_expand` completes, `GC_allochblk` is called again.
+
+##Marking objects that are in use##
+The libgc code uses a marking process to determine which blocks of allocated memory are still in use, and therefore which ones can be reclaimed. A block that is probably still in use is "marked" and will not be reclaimed yet. The code which does the marking is in the `GC_mark_from` function in the `mark.c` file.
+
+Reading this function is a bit daunting, since it is rather complex. This is a quote from the comment at the top of the file:
+
+> Note that this is the most performance critical routine in the collector.  Hence it contains all sorts of ugly hacks to speed things up. 
+
+I won't attempt to understand the entire function now. Instead, I'll stick to the section near the [end](https://github.com/ivmai/bdwgc/blob/master/mark.c#L830-L851) of the function which actually marks used blocks.
+
+{% highlight C++ linenos %}
+while ((word)current_p <= (word)limit) {
+  /* Empirically, unrolling this loop doesn't help a lot. */
+  /* Since PUSH_CONTENTS expands to a lot of code,        */
+  /* we don't.                                            */
+  current = *(word *)current_p;
+  FIXUP_POINTER(current);
+  PREFETCH(current_p + PREF_DIST*CACHE_LINE_SIZE);
+  if (current >= (word)least_ha && current < (word)greatest_ha) {
+    /* Prefetch the contents of the object we just pushed.  It's  */
+    /* likely we will need them soon.                             */
+    PREFETCH((ptr_t)current);
+# ifdef ENABLE_TRACE
+    if (GC_trace_addr == current_p) {
+      GC_log_printf("GC #%u: considering(1) %p -> %p\n",
+                    (unsigned)GC_gc_no, current_p, (ptr_t)current);
+    }
+# endif /* ENABLE_TRACE */
+    PUSH_CONTENTS((ptr_t)current, mark_stack_top,
+                  mark_stack_limit, current_p, exit2);
+  }
+  current_p += ALIGNMENT;
+}
+{% endhighlight %}
+
+Sometimes I find it easier to read code from the inside out. That is, find the code which performs the action I'm I want to understand, then follow the conditional statements which lead to that code, starting with the closest. In this case, I'm interested to learn how used objects are marked. The libgc code keeps track of a stack of marked objects. This code will add a block to the stop of the stack in the `PUSH_CONTENTS` macro on line 18. An object is considered in use (line 8), and is marked, if its address (represented by `current`) is between the least (`least_ha`) and greatest (`greatest_ha`) plausible heap addresses, which were computed earlier. The searching starts at `current_p` (line 1) and stops with the bound determined by `limit`.
+
+##Reclaiming everything not marked##
+After all of the allocated memory that is in use has been marked, the `GC_reclaim_block` function is called to free all blocks that are not marked via the `GC_freehblk` function. Once a block is reclaimed, it is added to the free list so that it can be used again in a subsequent allocation.
