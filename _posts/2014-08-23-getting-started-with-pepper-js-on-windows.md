@@ -92,6 +92,12 @@ However, something does not work correctly in the release build for many of the 
 
 I'm not sure about the cause of this problem, but it may be similar to this [issue](https://github.com/google/pepper.js/issues/8) reported recently. In spite of this problem, we can still verify that the debug build of the examples worked.
 
+**Update 2014-08-26:** I was able to work around the problem above by using the command line:
+
+    make TOOLCHAIN=emscripten CONFIG=release
+
+Note that the "r" in "release" is lowercase instead of uppercase. It seems this problem is not the same as the issue I linked to above. This change does correct the problem and allow the release build of the examples to complete for me though.
+
 ##Testing the debug examples##
 After running the local web server to test the examples, I found that none of them were working! This occurs because the website uses the release build of the examples, which is not available. It is relatively easy to use the debug build of the example though. First, select the "Developer Mode" option near the bottom of the examples site:
 
