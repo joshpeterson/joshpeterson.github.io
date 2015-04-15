@@ -4,7 +4,7 @@ title: All your state are belong to us
 ---
 My colleague (Lucas Meijer)[https://twitter.com/lucasmeijer] was recently making changes to a rather complex bit of code in IL2CPP, the VTableBuilder class, when he tweeted this:
 
-![A tweet about removing state](/static/images/all-your-base-are-belong-to-us/luces-tweet.png)
+![A tweet about removing state](/static/images/all-your-base-are-belong-to-us/lucas-tweet.png)
 
  I added the rather unoriginal response "All your state are belong to us."
 
@@ -15,7 +15,7 @@ This started me thinking though, could it be true that our programs have been ov
 More to the point, I wanted to answer the following questions:
 
 * What is *problematic* mutable state?
-* How do we correct problems with mutable state now?
+* How do we correct problems with mutable state?
 * Why can functional code solve the problems with mutable state?
 
 ##What is mutable state?##
@@ -30,6 +30,39 @@ Usually, we introduce mutable state with an assignment operator. For example:
 int answer = 42; // mutable state
 {% endhighlight %}
 
-But all mutable state is not problematic. Variables must have some value, otherwise we would not use them so prevalently. Instead, we should define *promlematic* mutable state.
+But all mutable state is not problematic. Variables must have some value (no pun intended), otherwise we would not use them so prevalently. Instead, we should define *problematic* mutable state.
 
-**Problematic mutable state**: Mutable state which is stored at a scope larger than a single function.
+**Problematic mutable state**: Mutable state which is stored at a scope too large to easily reason about.
+
+The problems we have with mutable state are not really about the state itself, but more so about about the state transitions. Specifically, when the value of the of the state variable changes, do we notice that change? Do we handle all of the possible values? How does the program behave when the mutable state takes on an unexpected value? By keeping the scope of the mutable state small enough for us to reason about, we can either answer or eliminate these questions.
+
+##How do we correct problems with mutable state?##
+
+Consider being a consumer of software, what do we usually do to correct problems with mutable state. If one of our tools, say an IDE or operating system, starts to behave badly, we restart it, right? What does restarting the software actually do? Why does it usually make the software behave correctly? By restarting it, we are actually modifying the mutable state in the program to known good values. Those values might make sense, like 0 for an integer, or NULL for a pointer. Even if they are uninitialized values, the software can deal with (or ignore them), likely because it was started millions of times during its development, so the value of all mutable state when the program was started can be handled correctly. Effectively, we have set the mutable state to the start of a known scope. The scope might be very large, but when the scope starts the state values are not problematic.
+
+As a programmer, I do the same thing. I control mutable state with various scopes, and I restart the scopes when I want to avoid the questions about mutable state (or at least, I *should* do this). For imperative programming in a object-oriented language, I think there are three levels of mutable state:
+
+* Global or static variables.
+* Class or struct member variable.
+* Function local variables.
+
+I've been taught from an early age to avoid global and static variables if at all possible. Why? In the context of this discussion, they can easily represent problematic mutable state, because their scope is the lifetime of the process. It is not possible for the programmer to restart their scope without restarting the process. For most programs and programming languages, that is not an option, as the process is the program itself.
+
+Class members are a bit easier to manage than global and static variables, since we have an idiom in object-oriented programming to restart their scope, the constructor. But I can still run into problems by exposing the mutable state from a class member to a larger scope. For example:
+
+{% highlight c++ %}
+class employee
+{
+  public:
+    employee(const string& name)
+      : name_(name) {}
+
+    char* getName()
+    {
+      return name_.c_str();
+    }
+  private:
+    string name_;
+};
+{% endhighlight %}
+
