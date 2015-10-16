@@ -1,3 +1,5 @@
 source 'http://rubygems.org'
 
-gem 'jekyll', '~>0.9'
+gem 'jekyll'
+gem 'iconv'
+gem 'kramdown'
