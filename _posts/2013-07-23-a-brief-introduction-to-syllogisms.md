@@ -32,7 +32,7 @@ This syllogism has three terms.
 * Mortal: a state of existence in which one will die (major term)
 * Socrates: the Greek philosopher (minor term)
 
-This syllogism has two premises. (minor term)
+This syllogism has two premises.
 
 * Major, universal premise: All men are mortal.
 * Minor, specific premise: Socrates is a man.
@@ -59,6 +59,6 @@ Why do syllogisms matter?
 ========================
 It is often difficult to be certain about a conclusion, since the space of possible arguments against the conclusion may be vast.
 
-Syllogisms rather nicely limit that seemingly infinite spaces of arguments to a relevant finite space. Often all of the arguments in that finite space can be examined, which may then provide us with more confidence about the conclusion.
+Syllogisms rather nicely limit that seemingly infinite space of arguments to a relevant finite space. Often all of the arguments in that finite space can be examined, which may then provide us with more confidence about the conclusion.
 
 When the conclusion will be become the foundation for other decisions, confidence in its correctness is of paramount importance.
