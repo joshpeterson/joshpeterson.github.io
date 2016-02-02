@@ -4,7 +4,7 @@ title: A trade-off between generalization and performance
 ---
 As a software developer, I am trained to look for generalizations. Much of my time is spent attempting to translate abstractions of concepts into concrete source code so they can be compiled and executed. This process always involves some level generalization (which is most of the fun). Often though, I've found that a generalization which makes sense for a given concept can lead to significant performance problems. A generalization is, after all, a leaky abstraction of some specific case. I try to create abstractions that don't leak important information, but sometimes they do.
 
-##Iterators Everywhere##
+## Iterators Everywhere##
 The iterator pattern is one very useful abstraction. I have [used](https://github.com/joshpeterson/osoasso/blob/master/include/parallel_task.h) it to write a pthread-based map-reduce algorithm, and I have [used](https://github.com/joshpeterson/Nash/blob/master/TRPMONashCategorizationParallel.h) it to interact with the Intel Thread Building Blocks map-reduce implementation as well. So when I started to write an MPI-based map-reduce algorithm, I adopted the familiar iterator pattern. The constructor for my map-reduce implementation looked something like this (I've omitted a few unimportant details):
 
 {% highlight c++ %}
@@ -19,12 +19,12 @@ In order to get the information about the elements of the container between the 
 
 Suppose that instead of exposing data stored in a container, the iterators expose data generated via an iterative algorithm.
 
-##Not Your Standard Iterator##
+## Not Your Standard Iterator##
 The iterator I'm using in this Nash solution search application is an iterator over a generative algorithm, so it has no container of stored data backing it. In fact, each iterator of this algorithm can be serialized to a single integer. So a general map-reduce implementation like the one I originally wrote above would generate the value at each iterator between begin and end, send that data (one integer per iterator) via MPI to another process, then use each integer to generate the data from the algorithm again, and provide it to the task!
 
 To avoid the cost of generating the value for each iterator twice and sending far more data than necessary to each process, I could have <code>MpiMapReduce</code> simply send the <code>begin</code> and <code>end</code> iterator for each partition to each MPI process. This would work well for generative iterators, but not for container-based iterators. The interface provided above indicates that any iterator will do, so it should be changed.
 
-##Say What You Mean, Mean What You Say##
+## Say What You Mean, Mean What You Say##
 As a developer, I like the generalization provided by the iterator pattern. It allows me to re-use the <code>MpiMapReduce</code> algorithm in many cases by separating the data to be operated on from the algorithm to operate on it. Since this generalization leaks some information about the way the iterator is implemented, and the use of that information allows a significant performance improvement, the generalization might be too costly.
 
 A better interface makes the intention of the code more explicit:

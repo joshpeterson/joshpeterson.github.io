@@ -11,7 +11,7 @@ I'll bet that most developers have experienced the application of [this](http://
 
 Indeed Michael Feathers [blogged](https://michaelfeathers.silvrback.com/when-it-s-okay-for-a-method-to-do-nothing) recently about the difficulty of naming a method that might do nothing. Since most code is read much more often than it is written, choosing the correct name for a method or a variable is extremely important. Good names can make complex code understandable, while bad names can leave even the simplest code nearly impenetrable.
 
-##Don't even name it##
+## Don't even name it##
 If a good name is valuable, then no name is priceless. Often I find myself writing code which uses object temporarily, but gives it a name that out lives its usefulness. Not only does this make code less readable, but it is down right dangerous.
 
 Consider the following example, taken from Anthony Williams excellent book [*Concurrency in Action*](http://www.cplusplusconcurrencyinaction.com/):
@@ -56,7 +56,7 @@ void might_throw() {
 
 In this trivial example, it is easy to see that <code>t.join()</code> should not be called now. But in a more complex method that you might find in real code, it may not be clear to someone later that the call to join the thread is not necessary (and, in fact, dangerous).
 
-##Find the temporary##
+## Find the temporary##
 The fundamental problem here is that we have given a name (<code>t</code>) to an object that is really a temporary. By using the <code>guard</code> class to handle the lifetime of the thread, we have eliminated the need for the method which creates the <code>std::thread</code> to ever use it. So rather then refactoring the code to change the name of <code>t</code> to something like <code>t_do_not_use</code>, we can avoid giving the thread a name altogether. I would really like to do something like this:
 
 {% highlight c++ %}

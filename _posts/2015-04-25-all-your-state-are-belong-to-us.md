@@ -18,7 +18,7 @@ More to the point, I wanted to answer the following questions:
 * How do we correct problems with mutable state?
 * Why can functional code solve the problems with mutable state?
 
-##What is mutable state?##
+## What is mutable state?##
 
 I think that mutable state is relatively easy to define.
 
@@ -36,7 +36,7 @@ But all mutable state is not problematic. Variables must have some value (no pun
 
 The problems we have with mutable state are not really about the state itself, but more so about about the state transitions. Specifically, when the value of the of the state variable changes, do we notice that change? Do we handle all of the possible values? How does the program behave when the mutable state takes on an unexpected value? By keeping the scope of the mutable state small enough for us to reason about, we can either answer or eliminate these questions.
 
-##How do we correct problems with mutable state?##
+## How do we correct problems with mutable state?##
 
 As consumers of software, what do we usually do to correct problems with mutable state? If one of our tools, say an IDE or operating system, starts to behave badly, we restart it, right? What does restarting the software actually do? Why does it usually make the software behave correctly? By restarting it, we are actually modifying the mutable state in the program to known good values. Those values might make sense, like 0 for an integer, or NULL for a pointer. Even if they are uninitialized values, the software can deal with (or ignore) them. It was started millions of times during its development, so the value of all mutable state when the program was started can be handled correctly. Effectively, we have set the mutable state to the start of a known scope. The scope might be very large, but when the scope starts the state values are not problematic.
 

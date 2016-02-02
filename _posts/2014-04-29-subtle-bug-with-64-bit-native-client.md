@@ -4,7 +4,7 @@ title: Subtle Bug With 64-bit Native Client
 ---
 I've recent tracked down the cause of a subtle problem with [Google Native Client](https://developer.chrome.com/native-client), using the newlib tool chain to build a 64-bit .nexe file. For some time, I've had problems getting a 64-bit .nexe to load correctly. Unfortunately, I don't have the Native Client tool chain installed on a 64-bit machine, so I was unable to debug the problem using my unit tests. By adding run-time logging to the code, I was able to finally isolate the cause of the problem, so I would like to share it in case others experience the same behavior.
 
-##A std::initializer_list too far##
+## A std::initializer_list too far##
 The problem occurs in code that looks like this:
 
 {% highlight c++ %}
@@ -18,7 +18,7 @@ This code constructs a simple `object_repository` instance by adding the items f
 
 In my specific case the `std::initializer_list` had eight items, but the loop continued at least nine times, dereferencing an invalid iterator on the ninth time through the loop.
 
-##A simple work-around##
+## A simple work-around##
 I was able to work around the problem by providing the constructor with an addition piece of information: the expected number of entries in the list.
 
 {% highlight c++ %}
