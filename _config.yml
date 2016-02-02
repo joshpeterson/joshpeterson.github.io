@@ -1,2 +1,3 @@
 permalink: '/:title'
+markdown: kramdown
 subscribe_rss: /atom.xml
