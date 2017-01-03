@@ -8,6 +8,10 @@ p {
   line-height: 28px;
 }
 
+hr {
+  margin: 10px 0 10px;
+}
+
 h1,h2,h3,h4 {
   font-family: 'Droid Serif', serif;
   color: #423F37;
