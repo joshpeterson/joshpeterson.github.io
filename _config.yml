@@ -2,3 +2,13 @@ permalink: '/:title'
 markdown: kramdown
 subscribe_rss: /atom.xml
 exclude: [vendor]
+collections:
+  projects:
+    output: true
+    sidebar: true
+  philosophy:
+    output: true
+    sidebar: true
+  professional:
+    output: true
+    sidebar: true

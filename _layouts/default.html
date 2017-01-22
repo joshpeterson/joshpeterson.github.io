@@ -54,9 +54,11 @@
     <div class="container">	
       <div id='mobile' class='two columns hidden'>
         <ul>
-          <li><a href='/'>Home</a></li>
-          <li><span class="gray">Josh Peterson - Software Developer</span></li>
+          <li>Josh Peterson</span></li>
+          <li class="gray">Software developer</li>
+          <li><a href="https://unity3d.com">Unity Technologies</a></li>
           <li><a href="https://twitter.com/petersonjm1">@petersonjm1</a></li>
+          {% include collections.html %}
         </ul>
       </div>
 
@@ -76,16 +78,7 @@
             <li class="gray">Software developer</li>
             <li><a href="https://unity3d.com">Unity Technologies</a></li>
           </ul>
-          
-          <div>
-              Projects
-              <hr>
-              <table>
-                  <tr><td style="padding-top: 5px;"><img src="static/images/summaexplorer-icon-24.png"/></td><td style="padding-bottom: 5px;"><a href="http://www.summaexplorer.com">Summa Explorer</a></td></tr>
-                  <tr><td style="padding-top: 5px;"><img src="static/images/mathfacts-icon-24.png"/></td><td style="padding-bottom: 5px;"><a href="https://joshpeterson.github.io/mathfacts/">Math Facts</a></td></tr>
-                  <tr><td style="padding-top: 5px;"><img src="static/images/layout-icon-24.png"/></td><td style="padding-bottom: 5px;"><a href="https://github.com/joshpeterson/layout">Layout</a></td></tr>
-              </table>
-          </div>
+          {% include collections.html %}
         </section>
       </div>
 

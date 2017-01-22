@@ -1,0 +1,12 @@
+<table>
+  {% for entry in include.stuff %}
+   {% if entry.index != true %}
+      <tr>
+        <td><a href="{{ entry.url }}">{{ entry.title }}</a></td>
+      </tr>
+      <tr>
+        <td style="padding-left: 1em">{{ entry.excerpt }}</td>
+      </tr>
+    {% endif %}
+  {% endfor %}
+</table>
