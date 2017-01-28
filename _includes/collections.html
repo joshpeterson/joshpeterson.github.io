@@ -1,18 +1,10 @@
+<p class="gray">Sections</p>
+<hr>
 {% for collection in site.collections %}
   {% if collection.sidebar == true  and collection.docs.size > 1 %}
       <p style="padding-top: 5px;">
       <div>
         <strong><a href="/{{ collection.label }}">{{ collection.label | capitalize }}</a></strong>
-        <hr>
-        <table>
-          {% for doc in collection.docs %}
-            {% if doc.index != true %}
-              <tr>
-                <td style="padding-top: 5px;"><a href="{{ doc.url }}">{{ doc.title }}</a></td>
-              </tr>
-            {% endif %}
-          {% endfor %}
-        </table>
       </div>
   {% endif %}
 {% endfor %}
