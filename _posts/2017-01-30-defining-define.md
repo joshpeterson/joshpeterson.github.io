@@ -134,21 +134,21 @@ Can we do Boolean operations, as with `#if`?
 #define ZERO 0
 #define ONE 1
 
-#ifdef ONE || ZERO
-#warning 1 or 0 is not active
+#ifdef ONE && ZERO
+#warning 1 and 0 is active
 #else
-#warning 1 or 0 is not active
+#warning 1 and 0 is not active
 #endif
 {% endhighlight %}
 
 {% highlight bash %}
 test.cpp:4:12: warning: extra tokens at end of #ifdef directive
-#ifdef ONE || ZERO
-test.cpp:5:2: warning: 1 or 0 is not active
+#ifdef ONE && ZERO
+test.cpp:5:2: warning: 1 and 0 is active
 {% endhighlight %}
 
 No, it seems Boolean conditions are not possible here. Even worse, we only get a
-warning, and condition is evaluated as if the `#ifdef` is false! In this case,
+warning, and condition is evaluated as if the `#ifdef` is true! In this case,
 the actual behavior is the opposite of my intuition. This could be lost in a sea of
 warnings, and end up being difficult to track down.
 
