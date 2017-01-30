@@ -134,14 +134,14 @@ Can we do Boolean operations, as with `#if`?
 #define ZERO 0
 #define ONE 1
 
-#indef ZERO && ONE
+#ifndef ZERO && ONE
 #warning !0 and 1 is active
 #endif
 {% endhighlight %}
 
 {% highlight bash %}
-test.cpp:4:2: error: invalid preprocessing directive
-#indef ZERO && ONE
+test.cpp:4:14: warning: extra tokens at end of #ifndef directive
+#ifndef ZERO && ONE
 {% endhighlight %}
 
 No, it seems Boolean conditions are not possible here. Note also that numeric
