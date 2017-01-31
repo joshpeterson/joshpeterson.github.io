@@ -148,7 +148,7 @@ test.cpp:5:2: warning: 1 and 0 is active
 {% endhighlight %}
 
 No, it seems Boolean conditions are not possible here. Even worse, we only get a
-warning, and condition is evaluated as if the `#ifdef` is true! In this case,
+warning, and the condition is evaluated as if the `#ifdef` is true! In this case,
 the actual behavior is the opposite of my intuition. This could be lost in a sea of
 warnings, and end up being difficult to track down.
 
