@@ -76,8 +76,16 @@ a:visited {
 }
 
 code {
-  font-size: 90%;
-  font-family: Monaco, Consolas, monospace;
+  font-size: 75%;
+  -webkit-font-feature-settings: "liga" on, "calt" on;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: 'Fira Code';
+  font-feature-settings: "calt" 1;
+}
+
+.highlight {
+  background-color: WhiteSmoke;
 }
 
 pre {
