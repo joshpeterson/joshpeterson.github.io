@@ -7,14 +7,14 @@ How does St. Thomas Aquinas understand eternity? Does it mean something more tha
 just "forever"? Is it still related to time?
 
 In the tenth question of the Summa, St. Thomas addresses [The Eternity of
-God](http://www.summaexplorer.com/questions/10). He uses five articles to take us
+God](http://summaexplorer.herokuapp.com/questions/10). He uses five articles to take us
 from the definition of eternity, to its application in God, to finally its
 relationship with time.
 
 ## The definition of eternity
 
 Not surprisingly, St. Thomas starts with a
-[definition](http://www.summaexplorer.com/articles/45) of eternity. He intends to
+[definition](http://summaexplorer.herokuapp.com/articles/45) of eternity. He intends to
 use the interesting definition from Boethius, and then defends his choice of this
 definition. Although this definition is a bit long and complex, it pays off in the
 end, as a clear definition makes the answers to some complex questions my simpler.
@@ -37,7 +37,7 @@ meanings to us:
 
  * **Simple:**  Here simple does not mean unintelligent, but rather, it is the
    opposite of compound. St. Thomas spends [question
-   3](http://www.summaexplorer.com/questions/3) discussing the simplicity of God.
+   3](http://summaexplorer.herokuapp.com/questions/3) discussing the simplicity of God.
    From that we can better understand what he means by "simple". Something which is
    simple:
 
@@ -46,7 +46,7 @@ meanings to us:
    3. Does not have subject and accident
 
    These attributes are a few among others listed in the article ["Whether God is
-   altogether simple?"](http://www.summaexplorer.com/articles/20). Simple
+   altogether simple?"](http://summaexplorer.herokuapp.com/articles/20). Simple
    represents some kind of wholeness and consistency. For St. Thomas, God is
    simple, almost everything else is not.
 
@@ -107,7 +107,7 @@ as full and perfect as it can be."
 ## How does eternity differ from time?
 
 It might be appealing to consider eternity to be time without beginning or end. But
-St. Thomas [explains](http://www.summaexplorer.com/articles/48) that this is not
+St. Thomas [explains](http://summaexplorer.herokuapp.com/articles/48) that this is not
 really a proper analogy. Indeed some believe that time will not end, so how can it
 differ from eternity? The definition above provides a succinct answer to this
 question:
@@ -126,4 +126,4 @@ same sense we use the word "change". Recall that
 * Time is the measure of movement (change)
 * Eternity is the measure of immutability
 
-[God is immutable](http://www.summaexplorer.com/articles/44), therefore God is eternal.
+[God is immutable](http://summaexplorer.herokuapp.com/articles/44), therefore God is eternal.

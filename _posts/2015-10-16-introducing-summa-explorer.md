@@ -3,7 +3,7 @@ layout: post
 title: Introducing Summa Explorer
 ---
 
-I'm happy to introduce the personal project I've been working on for the past nine months or so: [Summa Explorer](http://www.summaexplorer.com). I've enjoyed reading philosophy and theology for some time now. Saint Thomas Aquinas is one of my favorite authors, but I've found the Summa can be difficult to read in book form, mostly because of its sheer size. I wanted to come up with a way to read it that worked better for me, and the Summa Explorer is the result.
+I'm happy to introduce the personal project I've been working on for the past nine months or so: [Summa Explorer](https://summaexplorer.herokuapp.com). I've enjoyed reading philosophy and theology for some time now. Saint Thomas Aquinas is one of my favorite authors, but I've found the Summa can be difficult to read in book form, mostly because of its sheer size. I wanted to come up with a way to read it that worked better for me, and the Summa Explorer is the result.
 
 ## Highly structured##
 
