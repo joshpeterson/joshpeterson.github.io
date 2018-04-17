@@ -1,2 +1,2 @@
 #!/bin/sh
-bundle exec jekyll serve --host 0.0.0.0 --drafts
+bundle exec jekyll serve --host 0.0.0.0 --port 3000 --drafts
