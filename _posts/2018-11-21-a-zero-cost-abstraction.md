@@ -193,3 +193,12 @@ from a function provides:
 3. No cost over the best performing case
 
 In this case, `span` gives us the API we want with performance by default.
+
+## Update (November 24)
+
+Reddit user [u/TheThiefMaster](https://www.reddit.com/user/TheThiefMaster) points
+out that GCC will [optimize](https://godbolt.org/z/UrDA07) the `span` case so that
+the code is the same as the unsafe case, meaning it really has no overhead.
+
+_Discuss this post on Reddit
+[here](https://www.reddit.com/r/cpp/comments/9z2hqq/a_zero_cost_abstraction/)._
