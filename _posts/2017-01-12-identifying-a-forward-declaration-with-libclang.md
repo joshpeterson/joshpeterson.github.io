@@ -126,3 +126,29 @@ No fields
 {% endhighlight %}
 
 The output now includes the `EmptyType`, and indicates its size.
+
+# Update (December 7, 2018)
+
+Astute reader Fredrik Svantesson pointed out that `is_forward_declaration` won't
+work properly if the declaration and definition are in the same translation unit.
+In that case, `clang_getCursorDefinition` will _not_ return the null cursor, but
+instead will return the definition cursor!
+
+So, we need an additional check for this case:
+
+{% highlight cpp %}
+static bool is_forward_declaration(CXCursor cursor)
+{
+  auto definition = clang_getCursorDefinition(cursor);
+
+  // If the definition is null, then there is no definition in this translation
+  // unit, so this cursor must be a forward declaration.
+  if (clang_equalCursors(definition, clang_getNullCursor()))
+    return true;
+
+  // If there is a definition, then the forward declaration and the definition
+  // are in the same translation unit. This cursor is the forward declaration if
+  // it is _not_ the definition.
+   return !clang_equalCursors(cursor, definition);
+}
+{% endhighlight %}
