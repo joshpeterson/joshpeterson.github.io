@@ -3,13 +3,12 @@ layout: default
 title: Josh Peterson - Software Developer
 ---
 
-<ul id="posts" class="twelve columns offset-by-four">
-<h1>Blog</h1>
+<section class="nes-container with-title">
+  <h2 class="title">Blog</h2>
   {% for post in site.posts %}
-    <li>
-      <a class="eight columns" href="{{ post.url }}">{{ post.title }}</a>
-      <span class="three columns">{{ post.date | date: "%b %-d, %Y" }}</span>
-    </li>
+    <div>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+      <div style="text-align: right">{{ post.date | date: "%b %-d, %Y" }}</div>
+    </div>
   {% endfor %}
-</ul>
-<hr>
+</section>
