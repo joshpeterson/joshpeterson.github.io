@@ -1,10 +1,10 @@
-<section class="nes-container with-title">
-  <h2 class="title">Sections</h2>
-  {% for collection in site.collections %}
-    {% if collection.sidebar == true  and collection.docs.size > 1 %}
+<p class="gray">Sections</p>
+<hr>
+{% for collection in site.collections %}
+  {% if collection.sidebar == true  and collection.docs.size > 1 %}
+      <p style="padding-top: 5px;">
       <div>
-        <a href="/{{ collection.label }}">{{ collection.label | capitalize }}</a>
+        <strong><a href="/{{ collection.label }}">{{ collection.label | capitalize }}</a></strong>
       </div>
-    {% endif %}
-  {% endfor %}
-</section>
+  {% endif %}
+{% endfor %}
