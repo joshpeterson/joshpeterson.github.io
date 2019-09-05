@@ -6,13 +6,10 @@ task :css do
   puts "Merging CSS"
 
   `rm static/css/style.css`
-  `rm static/css/temp.css`
 
   %W{font-awesome syntax skeleton base layout gridtable}.each do |file|
-    `cat static/css/#{file}.css >> static/css/temp.css`
+    `cat static/css/#{file}.css >> static/css/style.css`
   end
-
-  `yui-compressor static/css/temp.css > static/css/style.css`
 
   puts 'CSS dumped to static/css/style.css'
 
@@ -33,5 +30,5 @@ task "Serve"
 task :serve do
   Rake::Task['css'].execute
 
-  `bundle exec jekyll serve --host 0.0.0.0 --drafts`
+  `bundle exec jekyll serve --host 0.0.0.0 --port 3000 --drafts`
 end
