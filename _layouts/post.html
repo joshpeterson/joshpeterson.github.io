@@ -2,20 +2,27 @@
 layout: default_post
 blog: true
 ---
-<h1>{{ page.title }}</h1>
-<script type="text/javascript"
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
 
-<div>
-  <p>
-    {{ page.date | date: "%B %-d, %Y" }}
-    {% if page.updated_at %}
+<article id="article-content">
+  <header id="article-header">
+    <h1>{{ page.title }}</h1>
+    <script type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+  </header>
+
+  <div class='gray' id="date-header">
+    <p>
+      {{ page.date | date: "%B %-d, %Y" }}
+  {% if page.updated_at %}
       revised {{ page.updated_at }}
-    {% endif %}
-  </p>
-</div>
+  {% endif %}
+    </p>
 
-<div id="article-content">
-  {{ content }}
-</div>
+  </div>
+
+  <div id="article-content">
+    {{ content }}
+  </div>
+</article>
+<hr>
