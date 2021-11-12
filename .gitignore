@@ -6,3 +6,4 @@ _site/
 temp.css
 vendor/*
 .bundle/*
+.jekyll-cache/*
