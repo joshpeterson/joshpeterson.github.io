@@ -288,3 +288,21 @@ which allows us to use the simplicity and expressiveness of C arrays in a safe w
 
 Oh, and of course your local neighborhood C++ compiler author (compilers are pretty
 amazing).
+
+## Edits
+
+Reddit commenter elcapitaine helpfully [pointed
+out](https://www.reddit.com/r/cpp/comments/sc152g/comment/hu4xano/?utm_source=share&utm_medium=web2x&context=3A)
+that in C++20 there is a
+[`std::to_array`](https://en.cppreference.com/w/cpp/container/array/to_array)
+helper that makes the `UseStdArray` case nicer to write:
+
+{% highlight c++ %}
+Point UseStdArray() {
+  {% raw %}auto input = to_array<Point>({{1, 2}, {3, 4}, {5, 6}});{% endraw %}
+  return Process(input);
+}
+{% endhighlight %}
+
+This looks much nicer than my code above - it does not list the array size twice
+and avoids the odd double curly braces.
