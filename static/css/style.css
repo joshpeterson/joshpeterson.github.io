@@ -995,7 +995,7 @@ a:visited {
 }
 
 code {
-  font-size: 75%;
+  font-size: 95%;
   -webkit-font-feature-settings: "liga" on, "calt" on;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
