@@ -4,6 +4,14 @@ title: Writing
 ---
 These are links to articles I have written professionally.
 
+**General Unity Blog Posts**
+
+* [Making AnimationEvent safe for the CoreCLR garbage collector](https://blog.unity.com/technology/making-animationevent-safe-for-the-coreclr-garbage-collector)
+* [Feature highlight: IL2CPP runtime performance improvements in Unity 2021.2](https://blog.unity.com/technology/feature-highlight-il2cpp-runtime-performance-improvements-in-unity-20212)
+* [Feature preview: IL2CPP Full Generic Sharing in Unity 2022.1 beta](https://blog.unity.com/technology/feature-preview-il2cpp-full-generic-sharing-in-unity-20221-beta)
+* [Scripting Runtime Improvements in Unity 2018.2](https://blog.unity.com/technology/scripting-runtime-improvements-in-unity-2018-2)
+* [Updated scripting runtime in Unity 2018.1: What does the future hold?](https://blog.unity.com/technology/updated-scripting-runtime-in-unity-2018-1-what-does-the-future-hold)
+
 **IL2CPP Internals Series**
 
 * [An introduction to IL2CPP internals](https://blogs.unity3d.com/2015/05/06/an-introduction-to-ilcpp-internals/)

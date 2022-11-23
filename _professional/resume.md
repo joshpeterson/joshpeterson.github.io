@@ -12,6 +12,7 @@ petersonjm1@gmail.com
 **Software Development Experience:**
 
 * Software Developer ~ Unity Technologies ~ July 2014 - Present
+  * Lead the .NET VM Team, including people management and project planning.
   * Worked on the development of the IL2CPP code conversion utility and runtime library.
   * Maintained the integration of Mono into Unity.
   * Engaged Unity users on a number of forums to provide product support.
