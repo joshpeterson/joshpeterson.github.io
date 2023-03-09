@@ -6,6 +6,7 @@ These are links to articles I have written professionally.
 
 **General Unity Blog Posts**
 
+* [Making string marshaling safe for the CoreCLR garbage collector](https://blog.unity.com/engine-platform/making-string-marshaling-safe-for-coreclr-garbage-collector)
 * [Making AnimationEvent safe for the CoreCLR garbage collector](https://blog.unity.com/technology/making-animationevent-safe-for-the-coreclr-garbage-collector)
 * [Feature highlight: IL2CPP runtime performance improvements in Unity 2021.2](https://blog.unity.com/technology/feature-highlight-il2cpp-runtime-performance-improvements-in-unity-20212)
 * [Feature preview: IL2CPP Full Generic Sharing in Unity 2022.1 beta](https://blog.unity.com/technology/feature-preview-il2cpp-full-generic-sharing-in-unity-20221-beta)
