@@ -6,19 +6,19 @@ For some time now I've wanted to make my vector-based math application [Osoasso]
 
 This week I decided to give pepper.js a try. I've not yet started to compile my code, but I ran into a few problems compiling and running the examples. I wanted to write down the solutions here so that others (and I) won't need to solve the same problems again.
 
-## Getting dependencies##
+## Getting dependencies
 
-### Emscripten###
+### Emscripten#
 To use pepper.js, I first needed to install Emscripten. I was able to obtain the Emscripten SDK from [this page](http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html). At the time of writing, version 1.22.0 is the latest version of the SDK. However, I'm using 32-bit Windows 7, so I had to scroll to bottom of the page and download version 1.12.0, the last version for 32-bit Windows.
 
-### Windows make###
+### Windows make#
 The pepper.js [README](https://github.com/google/pepper.js/blob/master/README.rst) indicates the next step is to build the examples using the following command (among a few others):
 
     make TOOLCHAIN=emscripten CONFIG=Debug
 
 When I initially tried this, I saw a rather odd and surprising error. As it turns out, I had the D SDK installed, so the `make` command on my machine was running the D version of `make`, not the GNU version. After moving the D verison out of the way, I downloaded the GNU Win32 version of make [here](http://gnuwin32.sourceforge.net/packages/make.htm).
 
-## Spaces in a path##
+## Spaces in a path
 When I ran the command above, I noticed the following output:
 
     make -C ppapi
@@ -45,7 +45,7 @@ So it seemed likely that the file make3560-1.bat was being executed and was caus
 
 Next, I used the `-i` option to cause `make` to continue after an error occurs. I was able to find a build which ran long enough so that I could view the contents of the makeXXX-1.bat file. Sure enough, the path to the Emscripten compiler was not quoted. Since Emscripten installed into the `C:\Program Files\Emscripten\emscripten\1.12.0` directory on my computer and set the `EMSCRIPTEN` environment variable to point to that directory, this problem occurred. I [modified](https://github.com/google/pepper.js/commit/15a802244ff71a6a792b8311866e86c1569358d2#diff-d41d8cd98f00b204e9800998ecf8427e) the tools/nacl_emscripten.mk file to quote the paths to the Emscripten compilers, and the make command succeeded. This change has now been pulled into the pepper.js source, so it should be corrected.
 
-## Building in release##
+## Building in release
 After building in debug, the README indicates that the examples should be build in release as well, using this command
 
     make TOOLCHAIN=emscripten CONFIG=Release
@@ -98,7 +98,7 @@ I'm not sure about the cause of this problem, but it may be similar to this [iss
 
 Note that the "r" in "release" is lowercase instead of uppercase. It seems this problem is not the same as the issue I linked to above. This change does correct the problem and allow the release build of the examples to complete for me though.
 
-## Testing the debug examples##
+## Testing the debug examples
 After running the local web server to test the examples, I found that none of them were working! This occurs because the website uses the release build of the examples, which is not available. It is relatively easy to use the debug build of the example though. First, select the "Developer Mode" option near the bottom of the examples site:
 
 ![Select developer mode](/static/images/getting-started-with-pepper-js-on-windows/select-debug.png)
@@ -107,5 +107,5 @@ This will enable a "Config" section of the site, which will allow you to switch 
 
 ![Use debug configuration](/static/images/getting-started-with-pepper-js-on-windows/use-debug.png)
 
-## Conclusion##
+## Conclusion
 With these few tweaks, I was able to get the pepper.js examples working well on Windows. The next step is to build my project!

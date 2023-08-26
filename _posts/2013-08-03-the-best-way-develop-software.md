@@ -8,7 +8,7 @@ Techniques for for software development are many and varied. As the discipline s
 If there is one thing I have learned as a developer, it is the simple fact that special cases _always_ exist. So I am rather confident that there is not one best technique for software development. However, after a few years of applying Test Driven Development to most of my software creation activities, I can't help but think that TDD is the best way to develop software for 
 _most_ situations.
 
-## When should we use TDD?##
+## When should we use TDD?
 If we can determine all of the cases when TDD is not the best technique for software development, then we should also know when it is the best technique. I have come up with three arguments to prove the following statement.
 
 Test Driven Design is the always the best technique for software development.

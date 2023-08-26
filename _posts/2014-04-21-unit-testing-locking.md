@@ -19,7 +19,7 @@ private:
 
 Locking in the correct place is rather important, since doing so incorrectly can lead to deadlocks on one hand or race conditions on the other. Something so important should be easy to test.
 
-## Using a wrapper##
+## Using a wrapper
 It is possible to make this code testable by wrapping the threading API in a helper class. Then the helper class can be used in the unit tests to validate the locking behavior.
 
 {% highlight c++ %}
@@ -79,7 +79,7 @@ Although this works, I don't think it is desirable for two reasons:
 1. It exposes something about the locking scheme on the API of the `queue` class, which seems unrelated to the behavior of the class.
 2. It adds the overhead of a virtual function call each time a mutex is locked. This overhead can be significant if the mutex is locked often.
 
-## Cleaning up the API##
+## Cleaning up the API
 The C++11 threading library provides some useful tools to clean up this API, eliminate unnecessary overhead, and allow the code to be testable. Scope-based locking in C++11 can be implemented with the `std::lock_guard<T>` class, where T is the type of the mutex to lock. In most cases, production code can use the type `std::mutex` for T. But if we use something like [policy-based design](http://en.wikipedia.org/wiki/Policy-based_design), we can expose the mutex type as an optional template parameter.
  
 {% highlight c++ %}

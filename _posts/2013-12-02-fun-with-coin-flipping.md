@@ -4,7 +4,7 @@ title: Fun with coin flipping
 ---
 In the November 2013 issue of Communications of the ACM Peter Winkler proposed three interesting [puzzles](http://cacm.acm.org/magazines/2013/11/169037-puzzled-coin-flipping/abstract) about coin flipping. The puzzles initially seem rather simple, but I suspect that my intuition about the answers is incorrect. To test my intuition, I've written a [utility](https://github.com/joshpeterson/CoinFlipping/blob/master/cfa.py) in Python to perform some Monte Carlo simulations for each problem. If I've written the utility correctly, these simulations should provide the correct answers. I'm looking forward to the arrival of the December issue.
 
-## Problem 1##
+## Problem 1
 
 The first problem is:
 
@@ -44,7 +44,7 @@ The head-tail sequences are sorted alphabetically, so the spikes on either end (
 
 So for many head-tail combinations, the yearly dues are about $32. However, it seems that getting five heads in a row or five tails in a row is significantly more difficult than other combinations. So it does, in fact, matter which sequence I select. I want to avoid HHHHH and TTTTT.
 
-## Problem 2##
+## Problem 2
 
 The second problem is:
 
@@ -82,7 +82,7 @@ As expected, both HHHHH and TTTTT are poor choices, winning least often. Again, 
 
 I'm surprised to see that the HTTTT sequence wins so often, almost 97% of the time! Without a clear analytic proof of this result, I have to suspect that my utility is flawed somehow so that this sequence seems to win more often. However, I cannot detect the problem with the utility.
 
-## Problem 3##
+## Problem 3
 
 The third problem is:
 
@@ -103,5 +103,5 @@ For each iteration of the Monte Carlo simulation for this problem, my utility wi
 
 After winning only 2% of the time in the best case, I can be sure that I won't take this bet.
 
-## Are these results correct?##
+## Are these results correct?
 These results are certainly surprising, and they don't line up with my intuition in most cases. My inability to solve these problems analytically lead me to perform Monte Carlo simulations of them. I'm interested to see the correct analytic solutions in the December 2013 CACM issue, so that I can determine if these simulations are accurate.

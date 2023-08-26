@@ -5,7 +5,7 @@ title: The (not so) surprising behavior of std::bind
 
 Often when I am unit testing a method which accepts a function pointer, I first write a simple test to verify that the point-to-function is called. The C++11 standard has added <a href="http://en.cppreference.com/w/cpp/utility/functional/bind"><code>std::bind</code></a> to easily create function pointers. When I used <code>std::bind</code> in a recent project, I discovered what I thought was surprising behavior. After a bit more investigation, I found that the behavior is not so surprising at all, and in fact provides some useful flexibility.
 
-## To Copy or Not to Copy##
+## To Copy or Not to Copy
 I've recently been writing some code which implements a simple map-reduce algorithm using MPI. The constructor for the map-reduce implementation class is defined like this:
 
 {% highlight c++ %}
@@ -57,7 +57,7 @@ auto partitioning_method =
 
 To my surprise, I found that the partitioning method was never called. At least, the <code>GetPartitioningMethodCalled()</code> method always returned false. It wasn't until I added a copy constructor to the <code>PartitioningTracker</code> class that I discovered the problem.
 
-## With Great Power Comes Great Responsibility##
+## With Great Power Comes Great Responsibility
 
 [This](http://stackoverflow.com/questions/15264003/using-stdbind-with-member-function-use-object-pointer-or-not-for-this-argumen) answer on Stack Overflow helped to determine the cause of this behavior. It turns out that <code>std::bind</code> has a number of overloads. The one I chose made a copy of the tracker object. So although my code in the <code>map()</code> method was indeed calling the partitioning method, it was calling the method on an instance of <code>PartitionTracker</code> which existed solely for the purpose of the <code>std::bind</code> call, not on the instance of <code>PartitionTracker</code> I had created. When my unit test asserted that <code>GetPartitioningMethodCalled()</code> returned true, it failed!
 
@@ -71,7 +71,7 @@ auto partitioning_method =
        placeholders::_2, placeholders::_3)_;
 {% endhighlight %}
 
-## The Full Story##
+## The Full Story
 
 To get a better idea of how the various overloads of <code>std::bind</code> work, I wrote a simple test program.
 

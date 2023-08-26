@@ -4,7 +4,7 @@ title: More fun with coin flipping
 ---
 In my [last post](fun-with-coin-flipping/) I attempted to solve three coin flipping [puzzles](http://cacm.acm.org/magazines/2013/11/169037-puzzled-coin-flipping/abstract) using Monte Carlo simulation. The [solutions](http://cacm.acm.org/magazines/2013/12/169936-puzzled-solutions-and-sources/abstract) to the puzzles are published, so I'll compare my results to the correct analytic solutions.
 
-## Problem 1##
+## Problem 1
 
 The first problem is:
 
@@ -16,7 +16,7 @@ Although I expected the dues for any sequence to be about $32 dollars, I found t
 
 So my Monte Carlo simulation correctly predicted this result.
 
-## Problem 2##
+## Problem 2
 
 The second problem is:
 
@@ -76,7 +76,7 @@ Here are the results if your opponent chooses the first four flips from your seq
 
 Clearly, if you opponent is blindly following one or the other strategy, your best option is to choose either HHHHT or TTTTH. I suspect that your opponent will be smart enough to choose the appropriate leading flip to give you almost no chance to win in these two cases. As Winkler mentions, your best option is to choose one of the sequences in the middle, which gives the best results for both cases. He suggests HHTHT, which wins about 1 of 3 times.
 
-## Problem 3##
+## Problem 3
 
 The third problem is:
 

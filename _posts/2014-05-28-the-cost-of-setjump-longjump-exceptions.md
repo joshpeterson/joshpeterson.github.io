@@ -12,14 +12,14 @@ currently only supported for unstable pexes...
 
 I was unfamiliar with the concept of set-jump long-jump exception handling, and I wondered why it had some cost associated with it. Here I'll attempt to explain that cost.
 
-## What is set-jump long-jump exception handling?##
+## What is set-jump long-jump exception handling?
 Set-jump long-jump exception handling is a simple method of exception handling implementation that uses the C methods `setjmp` and `longjmp` (or something like them). The `setjmp` method is used to store all of the processor state at a given location, and the `longjmp` method is used used to return to that processor state and location if necessary. In LLVM (which is used for the PNaCL implementation), the [`llvm.eh.sjlj.setjmp`](http://llvm.org/docs/ExceptionHandling.html#llvm-eh-sjlj-setjmp) and [`llvm.eh.sjlj.longjmp`](http://llvm.org/docs/ExceptionHandling.html#llvm-eh-sjlj-longjmp) intrinsics are used.
 
 This type of exception handling is not considered zero-cost, since some additional code must be executed for each `try` block or `throw` statement, even if the no exception occurs. As the LLVM exception handling [documentation](http://llvm.org/docs/ExceptionHandling.html) states:
 
 > ...SJLJ exception handling builds and removes the unwind frame context at runtime. This results in faster exception handling at the expense of slower execution when no exceptions are thrown. As exceptions are, by their nature, intended for uncommon code paths, DWARF exception handling is generally preferred to SJLJ.
 
-## How can exceptions be enabled with PNaCL?##
+## How can exceptions be enabled with PNaCL?
 Exception handling can be enabled with PNaCL at compile and link time use the `--pnacl-exceptions=sjlj` flag. This flag must be passed to both the compiler and the linker. So in my Makefile, I have the following lines:
 
 {% highlight Makefile %}
@@ -33,7 +33,7 @@ $(eval $(call LINK_RULE,$(TARGET)_unstripped,$(SOURCES),$(LIBS),$(DEPS),$(LDFLAG
 
 I spent a good bit of time wondering why the code in the first two lines did not work initially. Then I later realized that the `LDFLAGS` variable was not being passed to the `LINK_RULE` by default. I had to manually add it!
 
-## What is the cost of SJLJ exceptions?##
+## What is the cost of SJLJ exceptions?
 First, I measured the cost of SJLJ exceptions in two ways:
 
 1. Compile time
@@ -63,7 +63,7 @@ The following table shows the data for both of these cases with and without exce
 
 The most important cost of these exceptions is executable size. Osoasso is distributed via the web. Every extra byte matters, since it is an extra byte the user will have to download and extra time the user will wait to begin using the application.
 
-## What is the run-time cost of SJLJ exceptions?##
+## What is the run-time cost of SJLJ exceptions?
 To measure the run-time cost of SJLJ exceptions, I wanted to execute some code that includes `throw` statements but does not actually throw any exceptions. Also, the time to execute the code to perform the actual math should not be too significant, so it will not trump the exception handling code. I choose to use the `add` command to add two 100x100 matrices. This code throws exceptions if the matrices are not of the correct size.
 
 {% highlight c++ %}
@@ -100,7 +100,7 @@ else if (left->columns() != right->columns()) {
 
 So although there is a run-time cost for SJLJ exception handling, it not too significant. For most operations in Osoasso, exception handling is not a part of the code which performs the math, so SJLJ exception handling does not cause run-time overhead that will have a significant impact.
 
-## How are SJLJ exceptions implemented?##
+## How are SJLJ exceptions implemented?
 To better understand why this exception handling scheme has any run-time cost for the non-exceptional path, I decided to investigate the implementation details.
 
 The normal build for PNaCL generates a LLVM bitcode file and a .pexe file. Following the instructions [here](http://www.chromium.org/nativeclient/pnacl/experimenting-with-generated-bitcode) I was able to generate a human-readable text file of the LLVM bitcode using this command:
@@ -173,5 +173,5 @@ The only conditional here is used to determine the return value of the `setmp_ca
 
 So it is clear that SJLJ exception handling requires at least two additional function calls, plus some additional code on the non-exceptional path. Hence, it is not considered no-cost exception handling.
 
-## Why was SJLJ exception handling chosen?##
+## Why was SJLJ exception handling chosen?
 According to the [design document](https://docs.google.com/document/d/1Bub1bV_IIDZDhdld-zTULE2Sv0KNbOXk33KOW8o0aR4/edit) for this feature, SJLJ exception handling was chosen as a stop-gap solution to implement exception handling for PNaCL since it required no changes to the ABI. Zero-cost exception handling for PNaCL is coming in a future release, but it is not ready yet.

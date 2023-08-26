@@ -11,7 +11,7 @@ I plan to explore all three arguments by expressing each as a syllogism, and the
 
 Test Driven Design is the application of the scientific method to software development.
 
-## Defining the syllogism##
+## Defining the syllogism
 As I explored in an [earlier post](/a-brief-introduction-to-syllogisms/), syllogisms are often a useful tool to analyze a statement or to guide an argument in a productive direction. For this argument, I have written the following syllogism:
 
 <pre>
@@ -22,7 +22,7 @@ TDD is the application of the scientific method to software development,
 therefore TDD is the best way to develop software.
 </pre>
 
-## Terms##
+## Terms
 To analyze a syllogism, we first need to agree on the definition of the terms used in the syllogism. Here are my definitions of the four terms present here.
 
 * **To advance technology:** The action of harnessing the natural world to perform tasks
@@ -37,10 +37,10 @@ To analyze a syllogism, we first need to agree on the definition of the terms us
   * Writing the minimum production code to cause the unit test to pass
   * Iteratively repeating the first two steps to generalize the code
 
-## Premises##
+## Premises
 In order for a syllogism to be valid, we must agree that the premises are true. I'll list the two premises separately, and state my justification with each of them.
 
-### Major premise###
+### Major premise#
 The scientific method is the best way to advance technology.
 
 Here the major term is "to advance technology" and the middle term is "scientific method". The rate of technological advancement since the widespread use of the scientific method has proven this premise to be true. The scientific method provides two concrete outcomes which have opened the door for technological advancement.
@@ -48,7 +48,7 @@ Here the major term is "to advance technology" and the middle term is "scientifi
 * The scientific method makes experimental results repeatable.
 * The scientific method normalizes the process of performing experiments.
 
-### Minor premise###
+### Minor premise#
 TDD is the application of the scientific method to software development.
 
 Here the minor term is "Test Driven Design (TDD)" and the middle term is again "scientific method". This premise is not my idea. Rick Mugridge was the first to propose it, in [this paper](http://agile2003.agilealliance.org/files/P6Paper.pdf). I would recommend reading his paper, it is rather interesting. To summarize, he maps the steps of the scientific method to the steps of the Test Driven Design process.
@@ -80,14 +80,14 @@ Here the minor term is "Test Driven Design (TDD)" and the middle term is again "
 
 This one-to-one mapping between the steps of the scientific method and Test Driven Design indicates that TDD is the application of the scientific method to software development.
 
-## Logic##
+## Logic
 The conclusion of the syllogism is this statement: "TDD is the best way to develop software". Here the minor term is "TDD" and the major term is "to advance technology".
 
 In order for the logic to be valid, the minor term must be the subject of the conclusion, and the major term must be the object of the conclusion. Therefore, the terms "to advance technology" and "to develop software" must be interchangeable.
 
 I believe they  are interchangeable, since the tasks of software development are a proper subset of the tasks of technological advancement. Then in the conclusion, we can replace the more universal statement (to advance technology) with the more particular statement (to develop software).
 
-## How to disagree##
+## How to disagree
 As with any syllogism, an argument against this conclusion has three grounds for disagreement:
 
 * The terms are not defined correctly
@@ -96,7 +96,7 @@ As with any syllogism, an argument against this conclusion has three grounds for
 
 For example, I may have defined the terms too narrowly. Maybe a broader definition of some term will render the conclusion less useful. Or you may not believe that TDD is the application of the scientific method to software development. Or possibly, the terms "to advance technology" and "to develop software" are not interchangeable in the conclusion.
 
-## If this is true, what does it mean?##
+## If this is true, what does it mean?
 The benefit of this exercise for me is not so much the conclusion, but rather, a clear definition of times when TDD is not an appropriate software development practice. If I can define all of the times when TDD should not be used, then I also know when it should be used. Then I can convince myself that it is worth the initial effort, even if it seems to take longer to write some piece of software.
 
 So under what conditions would we not use the scientific method?

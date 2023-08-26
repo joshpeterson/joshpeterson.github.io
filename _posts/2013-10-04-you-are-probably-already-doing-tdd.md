@@ -10,7 +10,7 @@ I plan to explore all three arguments by expressing each as a syllogism, and the
 
 We are already practicing Test Driven Design, so why not replace ourselves with a small shell script?
 
-## Defining the syllogism##
+## Defining the syllogism
 As I explored in an [earlier post](/a-brief-introduction-to-syllogisms/), syllogisms are often a useful tool to analyze a statement or to guide an argument in a productive direction. For this argument, I have written the following syllogism:
 
 <pre>
@@ -21,7 +21,7 @@ Test Driven Design is more productive than ad-hoc testing,
 therefore, Test Driven Design is a more productive way to verify changes to the code.
 </pre>
 
-## Terms##
+## Terms
 To analyze a syllogism, we first need to agree on the definition of the terms used in the syllogism. Here are my definitions.
 
 * **Verify changes to the code:** The action of proving to a developer that a given change to the code has the desired impact on the run-time behavior.
@@ -31,15 +31,15 @@ To analyze a syllogism, we first need to agree on the definition of the terms us
   * Writing the minimum production code to cause the unit test to pass
   * Iteratively repeating the first two steps to generalize the code
 
-## Premises##
+## Premises
 In order for a syllogism to be valid, we must agree that the premises are true. I'll list the two premises separately, and state my justification with each of them.
 
-### Major premise###
+### Major premise#
 We verify changes to the code via ad-hoc tests.
 
 Here the major term is "verify changes to the code" and the middle term is "ad-hoc tests". The vast majority of developers I have met never commit changes to production code when they are unsure of the run-time behavior caused by those changes. Prior to exposing changes to our client, we _always_ do some verification.
 
-### Minor premise###
+### Minor premise#
 Test Driven Design is more productive than ad-hoc testing.
 
 Here the minor term is "Test Driven Design" and the middle term is "ad-hoc testing". The increased productivity of Test Driven Design comes for a few reasons:
@@ -54,10 +54,10 @@ Here the minor term is "Test Driven Design" and the middle term is "ad-hoc testi
   * It allows others to change code with confidence.
   * It exposes details about contract for a component to the clients of the component.
 
-## Logic##
+## Logic
 The conclusion of the syllogism is this statement: "Test Driven Design is a more productive way to verify changes to the code." In this simple syllogism, the minor term becomes the subject of the conclusion and the major term becomes the predicate.
 
-## How to disagree##
+## How to disagree
 As with any syllogism, an argument against this conclusion has three grounds for disagreement:
 
 * The terms are not defined correctly
@@ -66,7 +66,7 @@ As with any syllogism, an argument against this conclusion has three grounds for
 
 For example, I may have defined the terms too narrowly. Maybe a broader definition of some term will render the conclusion less useful, or you may not believe the truth of the major or the minor premise.
 
-## When should we avoid using Test Driven Design?##
+## When should we avoid using Test Driven Design?
 Since Test Driven Design often has a higher initial cost than other software development techniques, I believe that we need to determine when this analysis indicates that it should not be used. Based on this analysis, we should not use Test Driven Design when:
 
 * We do not want to capture the effort used to verify our changes.

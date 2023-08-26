@@ -4,12 +4,12 @@ title: Performance of NaCL vs. PNaCL
 ---
 Since I am now able to build my experimental vector-based mathematics application [Osoasso](http://osoasso.appspot.com) using Portable Native Client (PNaCL) with [exceptions enabled](/the-cost-of-setjump-longjump-exceptions), I decided to test the performance of PNaCL.
 
-## A confession##
+## A confession
 I chose to test the performance of Native Client (NaCL) and PNaCL by multiplying two $$nxn$$ matrices, with $$n=1024$$. The Osoasso code can use multiple threads, but I must confess that my current matrix multiplication implementation does not scale well. In fact, it scales only to about three threads, so these numbers are not nearly as good as they could be. Still, they do provide an interesting comparison between NaCL and PNaCL, at least in my code base.
 
 I ran both tests on two machines, a dual core Intel T2050 1.6 GHz laptop and an Intel Xeon X5675 3.7GHz with 12 cores. On the former machine, I used two threads, on the latter machine I used three threads.
 
-## NaCL performance##
+## NaCL performance
 I multiplied the same two matrices made up of randomly generated double values five times using [version 19](http://19.osoasso.appspot.com) of Osoasso. This version is built with the NaCL newlib tool chain, and it requires the Native Client flag be enabled in Chrome. Here are the results:
 
 <center>
@@ -60,7 +60,7 @@ All times are reported in seconds
 
 <br/>
 
-## PNaCL performance##
+## PNaCL performance
 Again, I multiplied the same two matrices made up of randomly generated double values five times using [version 20](http://20.osoasso.appspot.com) of Osoasso. This version is built with the PNaCL tool chain, and it does not require the Native Client flag be enabled in Chrome. Here are the results:
 
 <center>
@@ -111,6 +111,6 @@ All times are reported in seconds
 
 <br/>
 
-## Comparison##
+## Comparison
 These results present a mixed bag. While the performance of PNaCL was consistently worse on an older, dual-core laptop, it performed slightly better on a Xeon processor. For my experimental application at least, the cost of using PNaCL seems to be worth the benefit of portability. Now that the PNaCL build is the default for Osoasso, it can run in Chrome without the need to enable special flags.
 
