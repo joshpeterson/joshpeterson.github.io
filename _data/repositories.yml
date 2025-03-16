@@ -1,0 +1,10 @@
+github_users:
+  - joshpeterson
+
+repo_description_lines_max: 2
+
+github_repos:
+  - joshpeterson/layout
+  - joshpeterson/structlayout
+  - joshpeterson/mathfacts
+  - modular/max
