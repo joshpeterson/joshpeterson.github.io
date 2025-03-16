@@ -1,9 +1,0 @@
-_drafts/
-_site/
-*.swp
-*.swo
-*~
-temp.css
-vendor/*
-.bundle/*
-.jekyll-cache/*

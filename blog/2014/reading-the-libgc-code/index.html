@@ -1,0 +1,156 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Reading the libgc code | Josh Peterson </title> <meta name="author" content="Josh Peterson"> <meta name="description" content="Josh's personal website "> <link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5"> <link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%91%8B&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e"> <link rel="canonical" href="https://joshpeterson.github.io/blog/2014/reading-the-libgc-code/"> <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">Josh</span> Peterson </a> <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse text-right" id="navbarNav"> <ul class="navbar-nav ml-auto flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item active"> <a class="nav-link" href="/blog/">blog </a> </li> <li class="nav-item "> <a class="nav-link" href="/philosophy/">philosophy </a> </li> <li class="nav-item "> <a class="nav-link" href="/projects/">projects </a> </li> <li class="nav-item dropdown "> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">submenus </a> <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> <a class="dropdown-item " href="/repositories/">repositories</a> <div class="dropdown-divider"></div> <a class="dropdown-item " href="/publications/">publications</a> </div> </li> <li class="nav-item"> <button id="search-toggle" title="Search" onclick="openSearchModal()"> <span class="nav-link">ctrl k <i class="ti ti-search"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" title="Change theme"> <i class="ti ti-sun-moon" id="light-toggle-system"></i> <i class="ti ti-moon-filled" id="light-toggle-dark"></i> <i class="ti ti-sun-filled" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Reading the libgc code</h1> <p class="post-meta"> Created in June 30, 2014 </p> <p class="post-tags"> <a href="/blog/2014"> <i class="fa-solid fa-calendar fa-sm"></i> 2014 </a> </p> </header> <article class="post-content"> <div id="markdown-content"> <p>After listening to a recent <a href="http://rubyrogues.com/159-rr-hacking-education-with-saron-yitbarek/" rel="external nofollow noopener" target="_blank">episode</a> of Ruby Rogues, I was inspired to read some code. I’ve also been trying to learn something about the <a href="https://github.com/ivmai/bdwgc/" rel="external nofollow noopener" target="_blank">libgc</a> code, so I thought this might be a good opportunity to read some code and write about it.</p> <h2 id="disclaimer">Disclaimer</h2> <p>The libgc code is the Boehm-Demers-Weiser conservative garbage collector for C and C++. It is used in a number of projects, including Mono and GCJ. I’m entirely new to the code base, so any conclusions I draw here could be incorrect. Please take them with a grain of salt, or, better yet, attempt to disprove them yourself. If you do, please let me know, as I am happy to learn something that I may have missed.</p> <h2 id="building-libgc-on-windows">Building libgc on Windows</h2> <p>Code is executable, so one of the benefits of reading code is the clarity about the authors intention you can gain by debugging the code.</p> <p>Following the instructions in the <a href="https://github.com/ivmai/bdwgc/blob/master/doc/README.win32" rel="external nofollow noopener" target="_blank">README.win32</a> file to build libgc using Visual Studio 2013, I ran into a few problems. I renamed the <a href="https://github.com/ivmai/bdwgc/blob/master/NT_MAKEFILE" rel="external nofollow noopener" target="_blank">NT_MAKEFILE</a> file to be MAKEFILE, then changed to the bdwgc directory in a Visual Studio command prompt window. When I ran the <code class="language-plaintext highlighter-rouge">nmake</code> command, I saw the following output:</p> <pre>
+Microsoft (R) Program Maintenance Utility Version 12.00.21005.1
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+makefile(6) : fatal error U1052: file 'ntwin32.mak' not found
+Stop.
+</pre> <p>It turns out that Visual Studio cannot fine the ntwin32.mak file in its installation directories. After a bit of searching, I found this file in the C:\Program Files\Microsoft SDKs\Windows\v7.1A\Include directory on my machine. So I copied both ntwin32.mak and win32.mak from that directory into the C:\Program Files\Microsoft Visual Studio 12.0\VC\include directory. This allowed the nmake command to complete successfully.</p> <h2 id="understanding-allocation">Understanding allocation</h2> <p>The libgc code is designed to be a drop-in replacement for heap-based memory management in C and C++ programs, so it provides an implementation of <code class="language-plaintext highlighter-rouge">malloc</code>, named <code class="language-plaintext highlighter-rouge">GC_malloc</code> (the functions in the public interface of libgc all start with the GC_ prefix). To start my investigation of the code, I built the following program on 32-bit Windows 7:</p> <figure class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp">#define GC_NOT_DLL
+#include</span> <span class="cpf">&lt;gc.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span><span class="o">*</span> <span class="n">small</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="n">GC_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+  <span class="o">*</span><span class="n">small</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+
+  <span class="kt">int</span><span class="o">*</span> <span class="n">small2</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="n">GC_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+  <span class="o">*</span><span class="n">small2</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+  <span class="kt">void</span><span class="o">*</span> <span class="n">large</span> <span class="o">=</span> <span class="n">GC_malloc</span><span class="p">(</span><span class="mi">2048</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure> <p>This code compiles using the <code class="language-plaintext highlighter-rouge">bdwgc\include</code> directory in the include path, and linking against the gc.lib static library. The <code class="language-plaintext highlighter-rouge">GC_NOT_DLL</code> define indicates that the code is using the static library.</p> <p>The code I will read is contained in the <a href="https://github.com/ivmai/bdwgc/blob/master/malloc.c" rel="external nofollow noopener" target="_blank">malloc.c</a> file from lines 253 to 286:</p> <figure class="highlight"><pre><code class="language-c--" data-lang="c++"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+</pre></td> <td class="code"><pre><span class="cm">/* Allocate lb bytes of composite (pointerful) data */</span>
+<span class="cp">#ifdef THREAD_LOCAL_ALLOC
+</span>  <span class="n">GC_INNER</span> <span class="kt">void</span> <span class="o">*</span> <span class="n">GC_core_malloc</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">lb</span><span class="p">)</span>
+<span class="cp">#else
+</span>  <span class="n">GC_API</span> <span class="n">GC_ATTR_MALLOC</span> <span class="kt">void</span> <span class="o">*</span> <span class="n">GC_CALL</span> <span class="n">GC_malloc</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">lb</span><span class="p">)</span>
+<span class="cp">#endif
+</span><span class="p">{</span>
+  <span class="kt">void</span> <span class="o">*</span><span class="n">op</span><span class="p">;</span>
+  <span class="kt">size_t</span> <span class="n">lg</span><span class="p">;</span>
+  <span class="n">DCL_LOCK_STATE</span><span class="p">;</span>
+
+  <span class="k">if</span><span class="p">(</span><span class="n">SMALL_OBJ</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">GC_DBG_COLLECT_AT_MALLOC</span><span class="p">(</span><span class="n">lb</span><span class="p">);</span>
+    <span class="n">lg</span> <span class="o">=</span> <span class="n">GC_size_map</span><span class="p">[</span><span class="n">lb</span><span class="p">];</span>
+    <span class="n">LOCK</span><span class="p">();</span>
+    <span class="n">op</span> <span class="o">=</span> <span class="n">GC_objfreelist</span><span class="p">[</span><span class="n">lg</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">EXPECT</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">op</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">))</span> <span class="p">{</span>
+      <span class="n">UNLOCK</span><span class="p">();</span>
+      <span class="k">return</span> <span class="p">(</span><span class="n">GENERAL_MALLOC</span><span class="p">((</span><span class="n">word</span><span class="p">)</span><span class="n">lb</span><span class="p">,</span> <span class="n">NORMAL</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="n">GC_ASSERT</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">obj_link</span><span class="p">(</span><span class="n">op</span><span class="p">)</span>
+      <span class="o">||</span> <span class="p">((</span><span class="n">word</span><span class="p">)</span><span class="n">obj_link</span><span class="p">(</span><span class="n">op</span><span class="p">)</span>
+          <span class="o">&lt;=</span> <span class="p">(</span><span class="n">word</span><span class="p">)</span><span class="n">GC_greatest_plausible_heap_addr</span>
+        <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">word</span><span class="p">)</span><span class="n">obj_link</span><span class="p">(</span><span class="n">op</span><span class="p">)</span>
+          <span class="o">&gt;=</span> <span class="p">(</span><span class="n">word</span><span class="p">)</span><span class="n">GC_least_plausible_heap_addr</span><span class="p">));</span>
+    <span class="n">GC_objfreelist</span><span class="p">[</span><span class="n">lg</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj_link</span><span class="p">(</span><span class="n">op</span><span class="p">);</span>
+    <span class="n">obj_link</span><span class="p">(</span><span class="n">op</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">GC_bytes_allocd</span> <span class="o">+=</span> <span class="n">GRANULES_TO_BYTES</span><span class="p">(</span><span class="n">lg</span><span class="p">);</span>
+    <span class="n">UNLOCK</span><span class="p">();</span>
+    <span class="k">return</span> <span class="n">op</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">GENERAL_MALLOC</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">NORMAL</span><span class="p">));</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>The libgc code separates allocations into small and large objects. On my machine, any allocations of 2047 bytes or less are considered small objects by default, and libgc attempts to allocate these objects closer together. The test code I’m using allocates two small objects of the same size (4 bytes) so that we can see the process of allocation with and without initialization. Then the code allocates the smallest large object possible (2048 bytes), so that we can see the large object allocation process.</p> <p>Here are a few tips for reading this code:</p> <ul> <li>The libgc code defines a <em>granule</em> as its smallest possible allocation size. On my machine, a granule is 8 bytes.</li> <li>Some of the global data structures here are defines that forward the global <code class="language-plaintext highlighter-rouge">GC_arrays</code> structure. In the debugger, Visual Studio is not able to follow the defines, so it is helpful for me to watch the actual values. <ul> <li> <code class="language-plaintext highlighter-rouge">GC_size_map</code> (line 14) is <code class="language-plaintext highlighter-rouge">GC_arrays._size_map</code>, the number of granules to allocate for a given size</li> <li> <code class="language-plaintext highlighter-rouge">GC_objfreelist</code> (line 16) is <code class="language-plaintext highlighter-rouge">GC_arrays._objfreelist</code>, the free list of objects</li> <li> <code class="language-plaintext highlighter-rouge">GC_bytes_allocd</code> (line 28) is <code class="language-plaintext highlighter-rouge">GC_arrays._bytes_allocd</code>, the total number of bytes allocated</li> </ul> </li> </ul> <h2 id="small-object-allocation">Small object allocation</h2> <p>Most of the code here is used for small object allocation. The <code class="language-plaintext highlighter-rouge">op</code> local variable, of type <code class="language-plaintext highlighter-rouge">void *</code> will be used to hold the point to the memory allocated for a small object. The <code class="language-plaintext highlighter-rouge">lg</code> local variable is the number of granules necessary to hold the small object. The code on lines 14 and 16 is used to determine first the number fo granules for the given size. In my case, 4 bytes requires 1 granule, so <code class="language-plaintext highlighter-rouge">lg</code> has a value of 1. Then the free list for granules of size 1 is checked. During the first allocation of a small object, <code class="language-plaintext highlighter-rouge">op</code> will have a value of <code class="language-plaintext highlighter-rouge">NULL</code>, so <code class="language-plaintext highlighter-rouge">GENERAL_MALLOC</code> will be called on line 19 to initialize the free list for objects that require 1 granule and allocate the memory for this object. After this is complete, the <code class="language-plaintext highlighter-rouge">GC_bytes_allocd</code> global will have a value of 8, since one granule has been used.</p> <p>A second small object allocation completes much faster, skipping the initialization in <code class="language-plaintext highlighter-rouge">GENERAL_MALLOC</code>, and pulling an object directly off the free list on line 16. This behavior indicates the reason for the distinction between small and large objects. Multiple allocations of small objects, especially when they are similar in size, can be preformed with very low overhead.</p> <h2 id="large-object-allocation">Large object allocation</h2> <p>Large object allocation occurs entirely in the <code class="language-plaintext highlighter-rouge">GENERAL_MALLOC</code> function, which forwards to the <code class="language-plaintext highlighter-rouge">GC_generic_malloc</code> function on lines 170 to 222 of malloc.c. I’ll include the snippet of this function that deals with large object allocation, from lines 184 to 215:</p> <figure class="highlight"><pre><code class="language-c--" data-lang="c++"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre></td> <td class="code"><pre><span class="kt">size_t</span> <span class="n">lg</span><span class="p">;</span>
+<span class="kt">size_t</span> <span class="n">lb_rounded</span><span class="p">;</span>
+<span class="n">word</span> <span class="n">n_blocks</span><span class="p">;</span>
+<span class="n">GC_bool</span> <span class="n">init</span><span class="p">;</span>
+
+<span class="n">lg</span> <span class="o">=</span> <span class="n">ROUNDED_UP_GRANULES</span><span class="p">(</span><span class="n">lb</span><span class="p">);</span>
+<span class="n">lb_rounded</span> <span class="o">=</span> <span class="n">GRANULES_TO_BYTES</span><span class="p">(</span><span class="n">lg</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">lb_rounded</span> <span class="o">&lt;</span> <span class="n">lb</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">((</span><span class="o">*</span><span class="n">GC_get_oom_fn</span><span class="p">())(</span><span class="n">lb</span><span class="p">));</span>
+<span class="n">n_blocks</span> <span class="o">=</span> <span class="n">OBJ_SZ_TO_BLOCKS</span><span class="p">(</span><span class="n">lb_rounded</span><span class="p">);</span>
+<span class="n">init</span> <span class="o">=</span> <span class="n">GC_obj_kinds</span><span class="p">[</span><span class="n">k</span><span class="p">].</span><span class="n">ok_init</span><span class="p">;</span>
+<span class="n">LOCK</span><span class="p">();</span>
+<span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">ptr_t</span><span class="p">)</span><span class="n">GC_alloc_large</span><span class="p">(</span><span class="n">lb_rounded</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="mi">0</span> <span class="o">!=</span> <span class="n">result</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">GC_debugging_started</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">BZERO</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">n_blocks</span> <span class="o">*</span> <span class="n">HBLKSIZE</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="cp">#ifdef THREADS
+</span>  <span class="cm">/* Clear any memory that might be used for GC descriptors */</span>
+  <span class="cm">/* before we release the lock.                            */</span>
+    <span class="p">((</span><span class="n">word</span> <span class="o">*</span><span class="p">)</span><span class="n">result</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">((</span><span class="n">word</span> <span class="o">*</span><span class="p">)</span><span class="n">result</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">((</span><span class="n">word</span> <span class="o">*</span><span class="p">)</span><span class="n">result</span><span class="p">)[</span><span class="n">GRANULES_TO_WORDS</span><span class="p">(</span><span class="n">lg</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">((</span><span class="n">word</span> <span class="o">*</span><span class="p">)</span><span class="n">result</span><span class="p">)[</span><span class="n">GRANULES_TO_WORDS</span><span class="p">(</span><span class="n">lg</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="cp">#endif
+</span>  <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">GC_bytes_allocd</span> <span class="o">+=</span> <span class="n">lb_rounded</span><span class="p">;</span>
+<span class="n">UNLOCK</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">init</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">GC_debugging_started</span> <span class="o">&amp;&amp;</span> <span class="mi">0</span> <span class="o">!=</span> <span class="n">result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">BZERO</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">n_blocks</span> <span class="o">*</span> <span class="n">HBLKSIZE</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>Once this code is executed, libgc has already determined this is a large object allocation. This large object will get its own section, defined by the number of granules on line 6. In this case, 2048 bytes require 257 granules, meaning the code will actually allocate 2056 bytes (the value of <code class="language-plaintext highlighter-rouge">lb_rounded</code> on line 7). This corresponds to 1 block on line 10, and the allocation occurs on line 13. If the allocation succeeds, the total number of bytes allocated is increased to 2072 on line 28, and the allocated memory is cleared on line 31 via a call to <code class="language-plaintext highlighter-rouge">memset</code>.</p> <h2 id="just-the-beginning">Just the beginning</h2> <p>The libgc code is complex and highly optimized, so this reading of the code has just scratched the surface of the allocation process. Next, I’ll explore how the code performs garbage collection.</p> </div> </article> <br> <hr> <br> <ul class="list-disc pl-8"></ul> <h2 class="text-3xl font-semibold mb-4 mt-12">Enjoy Reading This Article?</h2> <p class="mb-2">Here are some more articles you might like to read next:</p> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2024/more-fun-with-loop-unrolling-cpp/">More fun with loop unrolling - C++</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2024/learning-loop-unrolling/">Learning loop unrolling</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2023/constraints-are-liberating/">Constraints are liberating</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2022/span-making-c-arrays-fun-since-2020/">Span - making C arrays fun since 2020</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2022/game-theory-fun-in-the-nfl/">Game theory fun in the NFL</a> </li> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2025 Josh Peterson. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: March 16, 2025. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script> <script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script> <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script> <script src="/assets/js/search-data.js"></script> <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script> </body> </html>
