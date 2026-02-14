@@ -564,6 +564,11 @@ ninja.data = [{
           description: "Generate one-page sets of practice problems",
           section: "Projects",handler: () => {
               window.location.href = "/projects/math_facts/";
+            },},{id: "projects-meals-matter",
+          title: 'Meals Matter',
+          description: "Easily plan meals",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/meals_matter/";
             },},{
         id: 'social-discord',
         title: 'Discord',
