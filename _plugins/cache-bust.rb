@@ -42,8 +42,19 @@ module Jekyll
       CacheDigester.new(file_name: file_name, directory: nil).digest!
     end
 
+    # Hash the SCSS sources that compile into main.css (_sass/ plus the
+    # main.scss entry point) so the fingerprint changes whenever the
+    # generated CSS changes. The previous implementation hashed
+    # assets/_sass, which does not exist in this repo, so the digest was
+    # always the MD5 of an empty string and browsers kept serving stale
+    # CSS after deploys.
     def bust_css_cache(file_name)
-      CacheDigester.new(file_name: file_name, directory: 'assets/_sass').digest!
+      sources = Dir[File.join('_sass', '**', '*')]
+        .reject { |f| File.directory?(f) }
+        .sort
+        .map { |f| File.read(f) }
+      sources << File.read('assets/css/main.scss')
+      [file_name, '?', Digest::MD5.hexdigest(sources.join)].join
     end
   end
 end
