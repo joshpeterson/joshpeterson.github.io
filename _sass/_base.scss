@@ -4,6 +4,17 @@
 
 // Typography
 
+// Body font (overrides the Roboto default set by mdb.min.css).
+body {
+  font-family: "Merriweather", serif;
+}
+
+// Scale the root font size to make all rem-based sizes (text, headings,
+// spacing) larger. 125% = 20px instead of the browser's default 16px.
+html {
+  font-size: 125%;
+}
+
 p,
 h1,
 h2,
