@@ -44,7 +44,18 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "";
               },
-            },{id: "post-more-fun-with-loop-unrolling-c",
+            },{id: "post-competency",
+      
+        title: "Competency",
+      
+      description: "",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2026/competency/";
+        
+      },
+    },{id: "post-more-fun-with-loop-unrolling-c",
       
         title: "More fun with loop unrolling - C++",
       
