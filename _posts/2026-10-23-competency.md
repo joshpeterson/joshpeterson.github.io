@@ -5,7 +5,7 @@ title: Competency
 
 HUNTR/X is _really_ good at a few things: singing, dancing, and slaying demons. If you're a fan of competency and don't know about [KPop Demon Hunters](https://www.netflix.com/title/81498621), I highly recommend you check it out. 😉
 
-![HUNTR/X from KPop Demon Hunters](/static/images/competency/KPop Demon Hunters.jpg){: .mx-auto .d-block}
+![HUNTR/X from KPop Demon Hunters](/static/images/competency/KPop Demon Hunters.jpg)
 
 OK, that was a joke. Everyone is a fan of competency, especially our own competency. Everyone wants to be good at something - cooking, driving, or writing hit K-pop songs.
 
