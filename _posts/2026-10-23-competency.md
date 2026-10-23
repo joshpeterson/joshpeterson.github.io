@@ -33,7 +33,7 @@ Here [GCC](https://gcc.gnu.org/ai-policy.html) seems to be the most well-known e
 
 I've had the privilege of working with a number of highly competent software engineers in my career. The team I support at Modular is among the best. But what competency means for software engineers is changing, and changing fast. Whether the key metric we will use to measure competency is input, outcomes, or code, I can't tell (maybe we don't have to choose just one).
 
-But the _feeling_ of competency in crafting code, the thing I'm good at, the thing I've built my career on, it will not be valued for long. This is **scary**.
+But the _feeling_ of competency in crafting code, the thing I'm good at, the thing I've built my career on, will not be valued for long. This is **scary**.
 
 Don't get me wrong, I'm not complaining. I've been incredibly fortunate to live in a time and place where I am paid well to sit all day in a comfortable chair wearing jeans and a hoodie, engaging my mind to solve challenging problems. But change is hard, especially when it changes how we see ourselves as competent, as valued.
 
