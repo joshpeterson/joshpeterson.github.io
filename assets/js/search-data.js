@@ -580,6 +580,11 @@ ninja.data = [{
           description: "Easily plan meals",
           section: "Projects",handler: () => {
               window.location.href = "/projects/meals_matter/";
+            },},{id: "projects-voice-of-the-fathers",
+          title: 'Voice of the Fathers',
+          description: "Read the writings of the early church fathers",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/voice_of_the_fathers/";
             },},{
         id: 'social-discord',
         title: 'Discord',
