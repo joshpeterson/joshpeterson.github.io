@@ -2,6 +2,10 @@ source 'https://rubygems.org'
 
 gem 'jekyll'
 
+# Pin json to 2.x: terser passes nested options with mixed String/Symbol keys,
+# which json 3.x rejects with a duplicate-key GeneratorError.
+gem 'json', '~> 2.21'
+
 # Core plugins that directly affect site building
 group :jekyll_plugins do
     gem 'jekyll-archives'
